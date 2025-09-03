@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ninjago Battlegrounds</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+  #gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+  }
+  #menu {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+            background: url("images/fondojuego.png.png") no-repeat center center;
+    background-size: cover;
+    z-index: 1000;
+  }
+  #menu button {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    background: #f00;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  #menu button:hover {
+    background: #d00;
+    transform: scale(1.05);
+  }
+  #characterSelect {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+  }
+  .characterGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin: 20px;
+  }
+  .characterCard {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .characterCard:hover {
+    border-color: #f00;
+    transform: scale(1.05);
+  }
+  .characterCard img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  .characterCard h3 {
+    color: white;
+    margin: 15px 0 10px 0;
+  }
+  .characterCard p {
+    color: #ccc;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-value {
+    color: #f00;
+    font-weight: bold;
+  }
+  .worldSelect {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.9);
+    z-index: 1500;
+  }
+  .worldGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin: 30px;
+  }
+  .worldCard {
+    background: rgba(255,255,255,0.1);
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 300px;
+    height: 200px;
+  }
+  .worldCard:hover {
+    border-color: #f00;
+    transform: scale(1.05);
+  }
+  .worldCard img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  .worldCard h3 {
+    color: white;
+    margin: 10px 0;
+    font-size: 20px;
+  }
+  .worldCard p {
+    color: #ccc;
+    font-size: 14px;
+  }
+  .gameUI {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #f00;
+    z-index: 500;
+  }
+  .healthBar {
+    width: 200px;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px 0;
+  }
+  .healthFill {
+    height: 100%;
+    background: linear-gradient(90deg, #f00, #ff0, #0f0);
+    transition: width 0.3s ease;
+  }
+  .controls {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #f00;
+    z-index: 500;
+  }
+  .controls h4 {
+    margin: 0 0 10px 0;
+    color: #f00;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  .key {
+    background: #333;
+    border: 1px solid #666;
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 0 5px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+  .worldInfo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #f00;
+    z-index: 500;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div id="menu">
+  <h1 style="color:white; font-size: 40px;">Ninjago Battlegrounds</h1>
+  <button onclick="startWorldSelect()">Start Battle</button>
+  <button onclick="openShop()">Shop</button>
+</div>
+
+<div id="worldSelect" class="worldSelect">
+  <h1 style="color:white; font-size: 40px;">Choose Your Battle World</h1>
+  <div class="worldGrid">
+    <div class="worldCard" onclick="selectWorld('ice')">
+                  <img src="images/iceworld.png.png" alt="Ice World">
+      <h3>❄️ Ice World</h3>
+      <p>Frozen battleground with crystal spires</p>
+    </div>
+    <div class="worldCard" onclick="selectWorld('lava')">
+                  <img src="images/mundolava.png.png" alt="Lava World">
+      <h3>🌋 Lava World</h3>
+      <p>Volcanic terrain with flowing lava</p>
+    </div>
+  </div>
+  <button onclick="backToMenu()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Back to Menu</button>
+</div>
+
+<div id="characterSelect" class="characterSelect">
+  <h1 style="color:white; font-size: 40px;">Choose Your Ninja</h1>
+  <div class="characterGrid">
+    <div class="characterCard" onclick="selectCharacter('kai')">
+                  <img src="images/ninjarojosinmascara.png.png" alt="Kai">
+      <h3>Kai (Red Ninja)</h3>
+      <p>Master of Fire</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">25</div>
+          <div>Attack</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">15</div>
+          <div>Defense</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">200</div>
+          <div>Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="characterCard" onclick="selectCharacter('zane')">
+                  <img src="images/ninjablanco.png-fotor-bg-remover-20250902204741.png" alt="Zane">
+      <h3>Zane (White Ninja)</h3>
+      <p>Master of Ice</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">20</div>
+          <div>Attack</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">20</div>
+          <div>Defense</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">180</div>
+          <div>Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="characterCard" onclick="selectCharacter('jay')">
+                  <img src="images/ninjaazul.png-fotor-bg-remover-20250902204441.png" alt="Jay">
+      <h3>Jay (Blue Ninja)</h3>
+      <p>Master of Lightning</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">30</div>
+          <div>Attack</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">10</div>
+          <div>Defense</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">160</div>
+          <div>Health</div>
+        </div>
+      </div>
+    </div>
+    <div class="characterCard" onclick="selectCharacter('lloyd')">
+                  <img src="images/ChatGPT Image Sep 2, 2025, 09_04_04 PM-fotor-bg-remover-2025090221451.png" alt="Lloyd">
+      <h3>Lloyd (Green Ninja)</h3>
+      <p>Master of Energy</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">35</div>
+          <div>Attack</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">5</div>
+          <div>Defense</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">250</div>
+          <div>Health</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button onclick="backToWorldSelect()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Back to World Select</button>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<div id="gameUI" style="display: none;">
+  <h3>Battle Status</h3>
+  <div id="player1Info">
+    <div>Player 1: <span id="player1Name">-</span></div>
+    <div class="healthBar">
+      <div class="healthFill" id="player1Health" style="width: 100%"></div>
+    </div>
+  </div>
+  <div id="player2Info">
+    <div>Player 2: <span id="player2Name">-</span></div>
+    <div class="healthBar">
+      <div class="healthFill" id="player2Health" style="width: 100%"></div>
+    </div>
+  </div>
+</div>
+
+<div id="worldInfo" class="worldInfo" style="display: none;">
+  <h4>🌍 World</h4>
+  <div id="worldName">-</div>
+</div>
+
+<div class="controls" style="display: none;">
+  <h4>🎮 Controls</h4>
+  <div class="control-row">
+    <span>Move:</span>
+    <span class="key">WASD</span> or <span class="key">↑↓←→</span>
+  </div>
+  <div class="control-row">
+    <span>Attack:</span>
+    <span class="key">CTRL</span>
+  </div>
+  <div class="control-row">
+    <span>Special:</span>
+    <span class="key">ENTER</span>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Game state
+let gameState = "menu"; // "menu", "worldSelect", "characterSelect", "battle"
+let selectedWorld = null;
+let selectedCharacter = null;
+let player1 = null;
+let player2 = null;
+
+// Input handling
+const keys = {};
+const mouse = { x: 0, y: 0 };
+
+// Character definitions with exact image names (only the 4 from the photo)
+// IMPORTANT: Make sure your PNG images have transparent backgrounds for best results!
+// The images should be saved as PNG with transparency (not JPG or PNG with white background)
+const characters = {
+  kai: {
+    name: "Kai (Red Ninja)",
+            img: "images/ninjarojosinmascara.png.png",
+    attack: 25,
+    defense: 15,
+    special: "Fire Storm",
+    specialDamage: 40,
+    speed: 5,
+    weapon: "Golden Sword",
+    maxHealth: 200  // Increased health
+  },
+  zane: {
+    name: "Zane (White Ninja)",
+            img: "images/ninjablanco.png-fotor-bg-remover-20250902204741.png",
+    attack: 20,
+    defense: 20,
+    special: "Ice Freeze",
+    specialDamage: 35,
+    speed: 4,
+    weapon: "Ice Staff",
+    maxHealth: 180  // Increased health
+  },
+  jay: {
+    name: "Jay (Blue Ninja)",
+            img: "images/ninjaazul.png-fotor-bg-remover-20250902204441.png",
+    attack: 30,
+    defense: 10,
+    special: "Lightning Strike",
+    specialDamage: 45,
+    speed: 6,
+    weapon: "Lightning Blade",
+    maxHealth: 160  // Increased health
+  },
+  lloyd: {
+    name: "Lloyd (Green Ninja)",
+            img: "images/ChatGPT Image Sep 2, 2025, 09_04_04 PM-fotor-bg-remover-2025090221451.png",
+    attack: 35,
+    defense: 5,
+    special: "Energy Blast",
+    specialDamage: 50,
+    speed: 7,
+    weapon: "Energy Katana",
+    maxHealth: 250  // Increased health
+  }
+};
+
+// World definitions
+const worlds = {
+  ice: {
+    name: "❄️ Ice World",
+            background: "images/iceworld.png.png",
+    description: "Frozen battleground with crystal spires",
+    ambientColor: "#87CEEB",
+    particleColor: "#FFFFFF"
+  },
+  lava: {
+    name: "🌋 Lava World",
+            background: "images/mundolava.png.png",
+    description: "Volcanic terrain with flowing lava",
+    ambientColor: "#FF4500",
+    particleColor: "#FF8C00"
+  }
+};
+
+// Hide canvas until game starts
+canvas.style.display = "none";
+
+// Input event listeners
+document.addEventListener('keydown', (e) => {
+  keys[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener('keyup', (e) => {
+  keys[e.key.toLowerCase()] = false;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+
+function startWorldSelect() {
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("worldSelect").style.display = "flex";
+  gameState = "worldSelect";
+}
+
+function selectWorld(worldId) {
+  selectedWorld = worldId;
+  console.log("Selected world:", worldId, "World data:", worlds[worldId]);
+  document.getElementById("worldSelect").style.display = "none";
+  document.getElementById("characterSelect").style.display = "flex";
+  gameState = "characterSelect";
+}
+
+function backToWorldSelect() {
+  document.getElementById("characterSelect").style.display = "none";
+  document.getElementById("worldSelect").style.display = "flex";
+  gameState = "worldSelect";
+}
+
+function backToMenu() {
+  if (gameState === "worldSelect") {
+    document.getElementById("worldSelect").style.display = "none";
+  } else if (gameState === "characterSelect") {
+    document.getElementById("characterSelect").style.display = "none";
+  }
+  document.getElementById("menu").style.display = "flex";
+  gameState = "menu";
+}
+
+function selectCharacter(characterId) {
+  selectedCharacter = characterId;
+  console.log("Selected character:", characterId);
+  console.log("Character data:", characters[characterId]);
+  console.log("Image path:", characters[characterId].img);
+  console.log("Starting battle with character:", characters[characterId].name);
+  startBattle();
+}
+
+function startBattle() {
+  document.getElementById("characterSelect").style.display = "none";
+  canvas.style.display = "block";
+  document.getElementById("gameUI").style.display = "block";
+  document.getElementById("worldInfo").style.display = "block";
+  document.querySelector(".controls").style.display = "block";
+  
+  gameState = "battle";
+  
+  // Update world info
+  document.getElementById("worldName").textContent = worlds[selectedWorld].name;
+  
+  // Create player 1 (human)
+  player1 = {
+    id: selectedCharacter,
+    name: characters[selectedCharacter].name,
+    health: characters[selectedCharacter].maxHealth,
+    maxHealth: characters[selectedCharacter].maxHealth,
+    attack: characters[selectedCharacter].attack,
+    defense: characters[selectedCharacter].defense,
+    special: characters[selectedCharacter].special,
+    specialDamage: characters[selectedCharacter].specialDamage,
+    speed: characters[selectedCharacter].speed,
+    weapon: characters[selectedCharacter].weapon,
+    x: 150,
+    y: canvas.height - 200,
+    image: new Image(),
+    lastAttack: 0,
+    lastSpecial: 0,
+    isAttacking: false,
+    isSpecialAttacking: false,
+    attackCooldown: 500,
+    specialCooldown: 2000,
+    facing: 1, // 1 = right, -1 = left
+    animationFrame: 0
+  };
+  
+  // Load player 1 image with error handling
+  console.log("Loading player 1 image from:", characters[selectedCharacter].img);
+  player1.image.onload = () => {
+    console.log("Player 1 image loaded successfully:", characters[selectedCharacter].img);
+  };
+  player1.image.onerror = () => {
+    console.error("Failed to load player 1 image:", characters[selectedCharacter].img);
+    // Create a colored rectangle as fallback
+    player1.image = null;
+    player1.color = '#ff0000';
+  };
+  player1.image.src = characters[selectedCharacter].img;
+  
+  // Create player 2 (AI) - choose from remaining characters
+  const availableCharacters = Object.keys(characters).filter(id => id !== selectedCharacter);
+  const aiCharacterId = availableCharacters[Math.floor(Math.random() * availableCharacters.length)];
+  
+  player2 = {
+    id: aiCharacterId,
+    name: characters[aiCharacterId].name,
+    health: characters[aiCharacterId].maxHealth,
+    maxHealth: characters[aiCharacterId].maxHealth,
+    attack: characters[aiCharacterId].attack,
+    defense: characters[aiCharacterId].defense,
+    special: characters[aiCharacterId].special,
+    specialDamage: characters[aiCharacterId].specialDamage,
+    speed: characters[aiCharacterId].speed,
+    weapon: characters[aiCharacterId].weapon,
+    x: canvas.width - 150,
+    y: canvas.height - 200,
+    image: new Image(),
+    isAI: true,
+    lastAttack: 0,
+    lastSpecial: 0,
+    target: player1,
+    state: 'chase',
+    facing: -1,
+    animationFrame: 0
+  };
+  
+  // Load player 2 image with error handling
+  console.log("Loading player 2 image from:", characters[aiCharacterId].img);
+  player2.image.onload = () => {
+    console.log("Player 2 image loaded successfully:", characters[aiCharacterId].img);
+  };
+  player2.image.onerror = () => {
+    console.error("Failed to load player 2 image:", characters[aiCharacterId].img);
+    // Create a colored rectangle as fallback
+    player2.image = null;
+    player2.color = '#0000ff';
+  };
+  player2.image.src = characters[aiCharacterId].img;
+  
+  // Update UI
+  updateUI();
+  
+  // Debug: Log final player setup
+  console.log("Battle started! Player1:", player1.name, "Player2:", player2.name);
+  console.log("Player1 position:", player1.x, player1.y, "Player2 position:", player2.x, player2.y);
+  
+  // Start game loop
+  gameLoop();
+}
+
+function updateUI() {
+  document.getElementById("player1Name").textContent = player1.name;
+  document.getElementById("player2Name").textContent = player2.name;
+  
+  const player1HealthPercent = (player1.health / player1.maxHealth) * 100;
+  const player2HealthPercent = (player2.health / player2.maxHealth) * 100;
+  
+  document.getElementById("player1Health").style.width = player1HealthPercent + "%";
+  document.getElementById("player2Health").style.width = player2HealthPercent + "%";
+}
+
+function handlePlayerInput() {
+  if (!player1) return;
+  
+  // Movement
+  if (keys['w'] || keys['arrowup']) {
+    player1.y -= player1.speed;
+  }
+  if (keys['s'] || keys['arrowdown']) {
+    player1.y += player1.speed;
+  }
+  if (keys['a'] || keys['arrowleft']) {
+    player1.x -= player1.speed;
+    player1.facing = -1;
+  }
+  if (keys['d'] || keys['arrowright']) {
+    player1.x += player1.speed;
+    player1.facing = 1;
+  }
+  
+  // Keep player on screen
+  player1.x = Math.max(100, Math.min(canvas.width - 100, player1.x));
+  player1.y = Math.max(100, Math.min(canvas.height - 100, player1.y));
+  
+  // Attack with Ctrl
+  if (keys['control'] && Date.now() - player1.lastAttack > player1.attackCooldown) {
+    attack(player1, player2);
+    player1.lastAttack = Date.now();
+    player1.isAttacking = true;
+    setTimeout(() => { player1.isAttacking = false; }, 200);
+  }
+  
+  // Special attack with Enter
+  if (keys['enter'] && Date.now() - player1.lastSpecial > player1.specialCooldown) {
+    specialAttack(player1, player2);
+    player1.lastSpecial = Date.now();
+    player1.isSpecialAttacking = true;
+    setTimeout(() => { player1.isSpecialAttacking = false; }, 500);
+  }
+}
+
+function updateAI() {
+  if (!player2 || !player2.target) return;
+  
+  const target = player2.target;
+  const dx = target.x - player2.x;
+  const dy = target.y - player2.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  
+  // AI behavior
+  if (distance > 200) {
+    // Chase player
+    player2.state = 'chase';
+    player2.x += (dx / distance) * player2.speed * 0.6;
+    player2.y += (dy / distance) * player2.speed * 0.6;
+    player2.facing = dx > 0 ? 1 : -1;
+  } else if (distance < 80) {
+    // Too close, retreat
+    player2.state = 'retreat';
+    player2.x -= (dx / distance) * player2.speed * 0.4;
+    player2.y -= (dy / distance) * player2.speed * 0.4;
+    player2.facing = dx > 0 ? -1 : 1;
+  } else {
+    // Attack range
+    player2.state = 'attack';
+    if (Date.now() - player2.lastAttack > 1200) {
+      attack(player2, target);
+      player2.lastAttack = Date.now();
+    }
+    if (Date.now() - player2.lastSpecial > 4000) {
+      specialAttack(player2, target);
+      player2.lastSpecial = Date.now();
+    }
+  }
+  
+  // Keep AI on screen
+  player2.x = Math.max(100, Math.min(canvas.width - 100, player2.x));
+  player2.y = Math.max(100, Math.min(canvas.height - 100, player2.y));
+}
+
+function attack(attacker, target) {
+  const damage = Math.floor(attacker.attack * (0.8 + Math.random() * 0.4));
+  target.health -= damage;
+  
+  if (target.health <= 0) {
+    target.health = 0;
+    endBattleWithWinner(attacker.name);
+    return;
+  }
+  
+  // Create attack effect
+  createAttackEffect(attacker.x, attacker.y, target.x, target.y);
+}
+
+function specialAttack(attacker, target) {
+  const damage = Math.floor(attacker.specialDamage * (0.9 + Math.random() * 0.2));
+  target.health -= damage;
+  
+  if (target.health <= 0) {
+    target.health = 0;
+    endBattleWithWinner(attacker.name);
+    return;
+  }
+  
+  // Create special attack effect
+  createSpecialEffect(attacker.x, attacker.y, target.x, target.y, attacker.special);
+}
+
+function createAttackEffect(ax, ay, tx, ty) {
+  // World-specific attack effects
+  const world = worlds[selectedWorld];
+  
+  if (selectedWorld === 'ice') {
+    // Ice attack effect
+    ctx.strokeStyle = '#87CEEB';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+    
+    // Ice crystals
+    ctx.fillStyle = '#FFFFFF';
+    for (let i = 0; i < 3; i++) {
+      const x = ax + (tx - ax) * (i + 1) / 4;
+      const y = ay + (ty - ay) * (i + 1) / 4;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 5);
+      ctx.lineTo(x + 3, y);
+      ctx.lineTo(x, y + 5);
+      ctx.lineTo(x - 3, y);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else if (selectedWorld === 'lava') {
+    // Lava attack effect - like the sword strike from the image
+    ctx.strokeStyle = '#FF4500';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+    
+    // Lava particles
+    ctx.fillStyle = '#FF8C00';
+    for (let i = 0; i < 8; i++) {
+      const x = ax + (tx - ax) * (i + 1) / 9;
+      const y = ay + (ty - ay) * (i + 1) / 9;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Sword trail effect
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+  }
+}
+
+function createSpecialEffect(ax, ay, tx, ty, specialName) {
+  const world = worlds[selectedWorld];
+  
+  if (selectedWorld === 'ice') {
+    // Ice special effect
+    ctx.fillStyle = '#87CEEB';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(specialName, tx, ty - 30);
+    
+    // Ice explosion
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(tx, ty, 25, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Ice spikes
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const x = tx + Math.cos(angle) * 35;
+      const y = ty + Math.sin(angle) * 35;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + Math.cos(angle) * 10, y + Math.sin(angle) * 10);
+      ctx.strokeStyle = '#87CEEB';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+  } else if (selectedWorld === 'lava') {
+    // Lava special effect - volcanic eruption style
+    ctx.fillStyle = '#FF4500';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(specialName, tx, ty - 30);
+    
+    // Lava explosion
+    ctx.fillStyle = '#FF8C00';
+    ctx.beginPath();
+    ctx.arc(tx, ty, 25, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Lava waves
+    for (let i = 0; i < 3; i++) {
+      ctx.strokeStyle = '#FF4500';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(tx, ty, 30 + i * 15, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    
+    // Volcanic particles
+    ctx.fillStyle = '#FFD700';
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const x = tx + Math.cos(angle) * 40;
+      const y = ty + Math.sin(angle) * 40;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+function endBattleWithWinner(winnerName) {
+  alert(`🏆 ${winnerName} has won the battle in ${worlds[selectedWorld].name}!`);
+  endBattle();
+}
+
+function endBattle() {
+  gameState = "menu";
+  canvas.style.display = "none";
+  document.getElementById("gameUI").style.display = "none";
+  document.getElementById("worldInfo").style.display = "none";
+  document.querySelector(".controls").style.display = "none";
+  document.getElementById("menu").style.display = "flex";
+  
+  // Reset game state
+  player1 = null;
+  player2 = null;
+  selectedCharacter = null;
+  selectedWorld = null;
+}
+
+function gameLoop() {
+  if (gameState !== "battle") return;
+  
+  // Debug: Log game loop execution
+  console.log("Game loop running, rendering frame");
+  
+  handlePlayerInput();
+  updateAI();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+function render() {
+  // Debug: Log render function call
+  console.log("Render function called, gameState:", gameState, "player1:", !!player1, "player2:", !!player2);
+  
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw world background
+  const world = worlds[selectedWorld];
+  const background = new Image();
+  background.src = world.background;
+  
+  if (background.complete) {
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    
+    // Add world-specific ambient effects
+    if (selectedWorld === 'ice') {
+      // Ice world ambient effect
+      ctx.fillStyle = 'rgba(135, 206, 235, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Snow particles
+      ctx.fillStyle = '#FFFFFF';
+      for (let i = 0; i < 20; i++) {
+        const x = (Date.now() / 10 + i * 50) % canvas.width;
+        const y = (Date.now() / 5 + i * 30) % canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (selectedWorld === 'lava') {
+      // Lava world ambient effect - volcanic atmosphere
+      ctx.fillStyle = 'rgba(255, 69, 0, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Lava particles and volcanic ash
+      ctx.fillStyle = '#FF8C00';
+      for (let i = 0; i < 25; i++) {
+        const x = (Date.now() / 8 + i * 60) % canvas.width;
+        const y = (Date.now() / 6 + i * 40) % canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Volcanic smoke effect
+      ctx.fillStyle = 'rgba(64, 64, 64, 0.3)';
+      for (let i = 0; i < 8; i++) {
+        const x = (Date.now() / 15 + i * 200) % canvas.width;
+        const y = 50 + Math.sin(Date.now() / 1000 + i) * 20;
+        ctx.beginPath();
+        ctx.arc(x, y, 30 + Math.sin(Date.now() / 500 + i) * 10, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  
+  // Draw battle platform (like the courtyard in the image)
+  if (selectedWorld === 'lava') {
+    // Lava world platform - transparent so characters appear on the world background
+    ctx.fillStyle = 'rgba(139, 69, 19, 0.3)';
+    ctx.fillRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Subtle platform border
+    ctx.strokeStyle = 'rgba(101, 67, 33, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Subtle lava cracks on platform
+    ctx.strokeStyle = 'rgba(255, 69, 0, 0.4)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 5; i++) {
+      const x = 100 + i * 150;
+      ctx.beginPath();
+      ctx.moveTo(x, canvas.height - 150);
+      ctx.lineTo(x + 50, canvas.height - 100);
+      ctx.lineTo(x + 100, canvas.height - 150);
+      ctx.stroke();
+    }
+  } else if (selectedWorld === 'ice') {
+    // Ice world platform - very subtle ice platform
+    ctx.fillStyle = 'rgba(135, 206, 235, 0.2)';
+    ctx.fillRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Subtle ice platform border
+    ctx.strokeStyle = 'rgba(70, 130, 180, 0.4)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Subtle ice crystals on platform
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const x = 80 + i * 120;
+      ctx.beginPath();
+      ctx.moveTo(x, canvas.height - 150);
+      ctx.lineTo(x + 20, canvas.height - 130);
+      ctx.lineTo(x + 40, canvas.height - 150);
+      ctx.stroke();
+    }
+  }
+  
+  // Draw players with proper positioning and facing
+  // PNG images with transparency will show without background
+  // If images have white/colored backgrounds, they will appear with those backgrounds
+  
+  // Debug: Log player positions and status
+  if (player1) {
+    console.log("Rendering player1:", player1.name, "at", player1.x, player1.y, "health:", player1.health);
+  }
+  if (player2) {
+    console.log("Rendering player2:", player2.name, "at", player2.x, player2.y, "health:", player2.health);
+  }
+  
+  if (player1) {
+    // Draw player 1
+    console.log("Player1 image status:", player1.image ? "exists" : "null", 
+                player1.image && player1.image.complete ? "complete" : "incomplete");
+    
+    if (player1.image && player1.image.complete) {
+      console.log("Drawing player1 image successfully");
+      ctx.save();
+      if (player1.facing === -1) {
+        ctx.scale(-1, 1);
+        ctx.drawImage(player1.image, -player1.x - 25, player1.y - 25, 50, 50);
+      } else {
+        ctx.drawImage(player1.image, player1.x - 25, player1.y - 25, 50, 50);
+      }
+      ctx.restore();
+    } else {
+      console.log("Using fallback rectangle for player1");
+      // Fallback: draw colored rectangle if image failed to load
+      ctx.fillStyle = player1.color || '#ff0000';
+      ctx.fillRect(player1.x - 25, player1.y - 25, 50, 50);
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(player1.x - 25, player1.y - 25, 50, 50);
+    }
+    
+    // Draw weapon (like the golden sword in the image)
+    if (player1.weapon) {
+      ctx.fillStyle = '#FFD700';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(player1.weapon, player1.x, player1.y + 40);
+    }
+    
+    // Draw attack indicator
+    if (player1.isAttacking) {
+      ctx.strokeStyle = world.ambientColor;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(player1.x, player1.y, 35, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    
+    if (player1.isSpecialAttacking) {
+      ctx.strokeStyle = world.particleColor;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(player1.x, player1.y, 40, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+  
+  if (player2) {
+    // Draw player 2
+    console.log("Player2 image status:", player2.image ? "exists" : "null", 
+                player2.image && player2.image.complete ? "complete" : "incomplete");
+    
+    if (player2.image && player2.image.complete) {
+      console.log("Drawing player2 image successfully");
+      ctx.save();
+      if (player2.facing === -1) {
+        ctx.scale(-1, 1);
+        ctx.drawImage(player2.image, -player2.x - 25, player2.y - 25, 50, 50);
+      } else {
+        ctx.drawImage(player2.image, player2.x - 25, player2.y - 25, 50, 50);
+      }
+      ctx.restore();
+    } else {
+      console.log("Using fallback rectangle for player2");
+      // Fallback: draw colored rectangle if image failed to load
+      ctx.fillStyle = player2.color || '#0000ff';
+      ctx.fillRect(player2.x - 25, player2.y - 25, 50, 50);
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(player2.x - 25, player2.y - 25, 50, 50);
+    }
+    
+    // Draw weapon
+    if (player2.weapon) {
+      ctx.fillStyle = '#FFD700';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(player2.weapon, player2.x, player2.y + 40);
+    }
+    
+    // Draw AI state indicator
+    ctx.fillStyle = player2.state === 'chase' ? '#00ff00' : 
+                   player2.state === 'attack' ? '#ff0000' : '#ffff00';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(player2.state.toUpperCase(), player2.x, player2.y - 40);
+  }
+  
+  // Draw health numbers
+  if (player1) {
+    ctx.fillStyle = 'white';
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${player1.health}`, player1.x, player1.y - 50);
+  }
+  
+  if (player2) {
+    ctx.fillStyle = 'white';
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${player2.health}`, player2.x, player2.y - 50);
+  }
+  
+  // Update UI
+  updateUI();
+}
+
+function openShop() {
+  alert("🛒 Shop is under construction!");
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+</body>
+</html>
