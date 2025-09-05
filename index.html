@@ -15,6 +15,7 @@
     display: block;
     width: 100vw;
     height: 100vh;
+    outline: none;
   }
   #menu {
     position: absolute;
@@ -109,10 +110,441 @@
     background: rgba(0,0,0,0.9);
     z-index: 1500;
   }
+  
+  /* Estilos para la tienda */
+  .shop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .shopSection {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    width: 80%;
+    max-width: 800px;
+  }
+  
+  .shopSection h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .cashPackages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .cashPackage {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .cashPackage:hover {
+    border-color: #00ff00;
+    transform: scale(1.05);
+    background: rgba(0,255,0,0.1);
+  }
+  
+  .cashPackage h3 {
+    color: #00ff00;
+    margin: 10px 0;
+  }
+  
+  .cashPackage p {
+    color: #ccc;
+    margin: 10px 0;
+  }
+  
+  .characterShop {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .shopCharacter {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .shopCharacter:hover {
+    border-color: #0080ff;
+    transform: scale(1.05);
+    background: rgba(0,128,255,0.1);
+  }
+  
+  .shopCharacter img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .shopCharacter h3 {
+    color: #0080ff;
+    margin: 10px 0;
+  }
+  
+  .shopCharacter p {
+    color: #ccc;
+    margin: 10px 0;
+  }
+  
+  .shopCharacter .stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+  }
+  
+  .shopCharacter .stat {
+    color: #ccc;
+    font-size: 12px;
+  }
+  
+  .buyButton {
+    background: #00ff00;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .buyButton:hover {
+    background: #00cc00;
+    transform: scale(1.05);
+  }
+  
+  .buyButton:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Estilos para cajas de habilidades */
+  .skillBoxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .skillBox {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .skillBox:hover {
+    border-color: #ffd700;
+    transform: scale(1.05);
+    background: rgba(255,215,0,0.1);
+  }
+  
+  .skillBox h3 {
+    color: #ffd700;
+    margin: 10px 0;
+  }
+  
+  .skillBox p {
+    color: #ccc;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  
+  /* Estilos para habilidades disponibles */
+  .availableSkills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .skillItem {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .skillItem:hover {
+    border-color: #ff6b6b;
+    background: rgba(255,107,107,0.1);
+  }
+  
+  .skillItem h4 {
+    color: #ff6b6b;
+    margin: 10px 0;
+  }
+  
+  .skillItem p {
+    color: #ccc;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  
+  /* Estilos para habilidades activas */
+  .activeSkills {
+    background: rgba(0,255,0,0.1);
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    min-height: 100px;
+  }
+  
+  .activeSkills h4 {
+    color: #00ff00;
+    margin-bottom: 15px;
+  }
+  
+  .activeSkills div {
+    background: rgba(0,255,0,0.2);
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 5px 0;
+    display: inline-block;
+    min-width: 150px;
+  }
+  
+  /* Estilos para el modo aventura */
+  .adventureMode {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    z-index: 2500;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .cityMap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 20px 0;
+    width: 90%;
+    max-width: 1200px;
+  }
+  
+  .cityDistrict {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+  }
+  
+  .cityDistrict h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .building {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .building:hover {
+    border-color: #FFD700;
+    background: rgba(255,215,0,0.1);
+    transform: scale(1.05);
+  }
+  
+  .buildingIcon {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
+  
+  .building h4 {
+    color: #FFD700;
+    margin: 10px 0;
+    font-size: 18px;
+  }
+  
+  .building p {
+    color: #ccc;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  
+  .tournamentInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .difficulty {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .difficulty.easy {
+    background: #4CAF50;
+    color: white;
+  }
+  
+  .difficulty.medium {
+    background: #FF9800;
+    color: white;
+  }
+  
+  .difficulty.hard {
+    background: #F44336;
+    color: white;
+  }
+  
+  .reward {
+    color: #FFD700;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  /* Estilos para la interfaz del torneo */
+  .tournamentUI {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #FFD700;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    z-index: 3000;
+    min-width: 400px;
+    color: white;
+  }
+  
+  .tournamentUI h2 {
+    color: #FFD700;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .tournamentProgress {
+    margin: 20px 0;
+  }
+  
+  .progressBar {
+    width: 100%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #FFD700);
+    transition: width 0.3s ease;
+  }
+  
+  .opponentInfo {
+    margin: 20px 0;
+  }
+  
+  .opponentCard {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+  }
+  
+  .opponentCard h4 {
+    color: #FFD700;
+    margin-bottom: 15px;
+  }
+  
+  .opponentCard p {
+    color: #ccc;
+    margin: 8px 0;
+  }
+  
+  .startBattleBtn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .startBattleBtn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .exitBtn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .exitBtn:hover {
+    background: #da190b;
+    transform: scale(1.05);
+  }
   .worldGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
     margin: 30px;
   }
   .worldCard {
@@ -216,8 +648,240 @@
 <body>
 <div id="menu">
   <h1 style="color:white; font-size: 40px;">Ninjago Battlegrounds</h1>
+  <div style="color: white; margin: 20px 0; font-size: 18px;">
+    💰 Cash: <span id="menuCash">1000</span> | 🆙 Nivel: <span id="menuLevel">1</span> | 🎯 IA: <span id="menuDifficulty">1</span>/10
+  </div>
   <button onclick="startWorldSelect()">Start Battle</button>
   <button onclick="openShop()">Shop</button>
+  <button onclick="startAdventureMode()" style="background: #4CAF50;">🏙️ Modo Aventura</button>
+</div>
+
+<div id="shop" class="shop" style="display: none;">
+  <h1 style="color:white; font-size: 40px;">🛒 Tienda</h1>
+  
+  <div style="color: white; margin: 20px 0; font-size: 18px;">
+    💰 Tu Cash: <span id="shopCash">1000</span>
+  </div>
+  
+  <div class="shopSection">
+    <h2 style="color: white;">💎 Comprar Cash</h2>
+    <div class="cashPackages">
+      <div class="cashPackage" onclick="buyCash(100000, 30)">
+        <h3>💰 100,000 Cash</h3>
+        <p>Precio: $30 USD</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+      <div class="cashPackage" onclick="buyCash(50000, 15)">
+        <h3>💰 50,000 Cash</h3>
+        <p>Precio: $15 USD</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+      <div class="cashPackage" onclick="buyCash(25000, 8)">
+        <h3>💰 25,000 Cash</h3>
+        <p>Precio: $8 USD</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="shopSection">
+    <h2 style="color: white;">🥷 Personajes</h2>
+    <div class="characterShop">
+      <div class="shopCharacter" onclick="buyCharacter('ninjaAzul')">
+        <img src="images/ChatGPT Image Sep 4, 2025, 03_29_16 PM-fotor-bg-remover-2025090415471.png" alt="Ninja Azul" id="ninjaAzulImage">
+        <h3>Ninja Azul (Mujer)</h3>
+        <p>Precio: 1,000 Cash</p>
+        <div class="stats">
+          <div class="stat">Attack: 28</div>
+          <div class="stat">Defense: 18</div>
+          <div class="stat">Health: 190</div>
+        </div>
+        <button class="buyButton" id="buyNinjaAzul">Comprar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="shopSection">
+    <h2 style="color: white;">🎁 Cajas de Habilidades</h2>
+    <div class="skillBoxes">
+      <div class="skillBox" onclick="buySkillBox('common')">
+        <h3>📦 Caja Común</h3>
+        <p>Contiene 1-3 habilidades aleatorias</p>
+        <p>Precio: 500 Cash</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+      <div class="skillBox" onclick="buySkillBox('rare')">
+        <h3>📦 Caja Rara</h3>
+        <p>Contiene 2-4 habilidades raras</p>
+        <p>Precio: 1,500 Cash</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+      <div class="skillBox" onclick="buySkillBox('epic')">
+        <h3>📦 Caja Épica</h3>
+        <p>Contiene 3-5 habilidades épicas</p>
+        <p>Precio: 3,000 Cash</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+      <div class="skillBox" onclick="buySkillBox('legendary')">
+        <h3>📦 Caja Legendaria</h3>
+        <p>Contiene 4-6 habilidades legendarias</p>
+        <p>Precio: 7,500 Cash</p>
+        <button class="buyButton">Comprar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="shopSection">
+    <h2 style="color: white;">⚡ Habilidades Disponibles</h2>
+    <div class="availableSkills">
+      <div class="skillItem">
+        <h4>🔥 Fuego Mejorado</h4>
+        <p>Aumenta el daño de fuego en 25%</p>
+        <p>Precio: 800 Cash</p>
+        <button class="buyButton" onclick="buySkill('fireBoost')">Comprar</button>
+      </div>
+      <div class="skillItem">
+        <h4>❄️ Hielo Mejorado</h4>
+        <p>Aumenta el daño de hielo en 25%</p>
+        <p>Precio: 800 Cash</p>
+        <button class="buyButton" onclick="buySkill('iceBoost')">Comprar</button>
+      </div>
+      <div class="skillItem">
+        <h4>⚡ Rayo Mejorado</h4>
+        <p>Aumenta el daño de rayo en 25%</p>
+        <p>Precio: 800 Cash</p>
+        <button class="buyButton" onclick="buySkill('lightningBoost')">Comprar</button>
+      </div>
+      <div class="skillItem">
+        <h4>💚 Energía Mejorada</h4>
+        <p>Aumenta el daño de energía en 25%</p>
+        <p>Precio: 800 Cash</p>
+        <button class="buyButton" onclick="buySkill('energyBoost')">Comprar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="shopSection">
+    <h2 style="color: white;">🎯 Tus Habilidades Activas</h2>
+    <div id="activeSkills" class="activeSkills">
+      <p style="color: #ccc; text-align: center;">No tienes habilidades activas</p>
+    </div>
+  </div>
+  
+  <button onclick="backToMenuFromShop()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Volver al Menú</button>
+</div>
+
+<div id="adventureMode" class="adventureMode" style="display: none;">
+  <h1 style="color:white; font-size: 40px;">🏙️ Modo Aventura - Ciudad Ninja</h1>
+  
+  <div style="color: white; margin: 20px 0; font-size: 18px;">
+    💰 Cash: <span id="adventureCash">1000</span> | 🆙 Nivel: <span id="adventureLevel">1</span> | 🎯 Dificultad IA: <span id="adventureDifficulty">1</span>/10
+  </div>
+  
+  <div class="cityMap">
+    <div class="cityDistrict">
+      <h3 style="color: #FFD700;">🏛️ Distrito Central</h3>
+      <div class="building" onclick="enterTournament('central', 'easy')">
+        <div class="buildingIcon">🏢</div>
+        <h4>Torre del Comercio</h4>
+        <p>Torneo Fácil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty easy">Fácil</span>
+          <span class="reward">💰 150 cash</span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('central', 'medium')">
+        <div class="buildingIcon">🏛️</div>
+        <h4>Palacio del Gobierno</h4>
+        <p>Torneo Intermedio - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty medium">Intermedio</span>
+          <span class="reward">💰 300 cash</span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('central', 'hard')">
+        <div class="buildingIcon">🗼</div>
+        <h4>Torre del Maestro</h4>
+        <p>Torneo Difícil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty hard">Difícil</span>
+          <span class="reward">💰 500 cash</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cityDistrict">
+      <h3 style="color: #87CEEB;">🌊 Distrito del Puerto</h3>
+      <div class="building" onclick="enterTournament('harbor', 'easy')">
+        <div class="buildingIcon">⚓</div>
+        <h4>Muelle de los Pescadores</h4>
+        <p>Torneo Fácil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty easy">Fácil</span>
+          <span class="reward">💰 150 cash</span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('harbor', 'medium')">
+        <div class="buildingIcon">🚢</div>
+        <h4>Puerto Comercial</h4>
+        <p>Torneo Intermedio - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="tournamentInfo">
+            <span class="difficulty medium">Intermedio</span>
+            <span class="reward">💰 300 cash</span>
+          </span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('harbor', 'hard')">
+        <div class="buildingIcon">🏰</div>
+        <h4>Fortaleza Marítima</h4>
+        <p>Torneo Difícil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty hard">Difícil</span>
+          <span class="reward">💰 500 cash</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cityDistrict">
+      <h3 style="color: #98FB98;">🌿 Distrito de la Naturaleza</h3>
+      <div class="building" onclick="enterTournament('nature', 'easy')">
+        <div class="buildingIcon">🌳</div>
+        <h4>Parque Central</h4>
+        <p>Torneo Fácil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty easy">Fácil</span>
+          <span class="reward">💰 150 cash</span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('nature', 'medium')">
+        <div class="buildingIcon">🏞️</div>
+        <h4>Jardines Botánicos</h4>
+        <p>Torneo Intermedio - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty medium">Intermedio</span>
+          <span class="reward">💰 300 cash</span>
+        </div>
+      </div>
+      
+      <div class="building" onclick="enterTournament('nature', 'hard')">
+        <div class="buildingIcon">🌲</div>
+        <h4>Bosque Sagrado</h4>
+        <p>Torneo Difícil - 3 oponentes</p>
+        <div class="tournamentInfo">
+          <span class="difficulty hard">Difícil</span>
+          <span class="reward">💰 500 cash</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <button onclick="backToMenuFromAdventure()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Volver al Menú</button>
 </div>
 
 <div id="worldSelect" class="worldSelect">
@@ -232,6 +896,16 @@
                   <img src="images/mundolava.png.png" alt="Lava World">
       <h3>🌋 Lava World</h3>
       <p>Volcanic terrain with flowing lava</p>
+    </div>
+    <div class="worldCard" onclick="selectWorld('jungle')">
+                  <img src="images/ChatGPT Image Sep 4, 2025, 03_07_48 PM.png" alt="Jungle World">
+      <h3>🌿 Jungle World</h3>
+      <p>Dense jungle with ancient ruins</p>
+    </div>
+    <div class="worldCard" onclick="selectWorld('legoCity')">
+      <img src="images/ciudad lego.jpg" alt="Lego City">
+      <h3>🏙️ Lego City</h3>
+      <p>Vibrant Lego city with tournaments and adventures</p>
     </div>
   </div>
   <button onclick="backToMenu()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Back to Menu</button>
@@ -357,9 +1031,18 @@
     <span>Special:</span>
     <span class="key">ENTER</span>
   </div>
+  <div class="control-row">
+    <span>Jump:</span>
+    <span class="key">SPACE</span>
+  </div>
+  <div class="control-row">
+    <span>Shield:</span>
+    <span class="key">SHIFT</span>
+  </div>
 </div>
 
-<script>
+  <script src="animations.js"></script>
+  <script>
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -371,6 +1054,19 @@ let selectedWorld = null;
 let selectedCharacter = null;
 let player1 = null;
 let player2 = null;
+let playerCash = 1000; // Cash inicial del jugador
+let playerLevel = 1; // Nivel del jugador (aumenta con victorias)
+let aiDifficulty = 1; // Dificultad de la IA (aumenta con victorias)
+let currentTournament = null; // Torneo actual
+let originalEndBattleWithWinner = null; // Función original para restaurar
+let isAdventureMode = false; // Si estamos en modo aventura
+let playerPosition = { x: 100, y: 400 }; // Posición del jugador en modo aventura
+let cameraOffset = { x: 0, y: 0 }; // Offset de la cámara para seguir al jugador
+let nearbyTournaments = []; // Torneos cercanos al jugador
+
+// Sistema de animaciones (deshabilitado)
+let characterAnimations = null;
+let lastTime = 0;
 
 // Input handling
 const keys = {};
@@ -423,6 +1119,19 @@ const characters = {
     speed: 7,
     weapon: "Energy Katana",
     maxHealth: 250  // Increased health
+  },
+  ninjaAzul: {
+    name: "Ninja Azul (Mujer)",
+            img: "images/ChatGPT Image Sep 4, 2025, 03_29_16 PM-fotor-bg-remover-2025090415471.png",
+    attack: 28,
+    defense: 18,
+    special: "Agua Torrencial",
+    specialDamage: 42,
+    speed: 6,
+    weapon: "Tridente de Agua",
+    maxHealth: 190,  // Increased health
+    price: 1000,     // Precio en cash
+    unlocked: false  // No desbloqueado inicialmente
   }
 };
 
@@ -441,6 +1150,55 @@ const worlds = {
     description: "Volcanic terrain with flowing lava",
     ambientColor: "#FF4500",
     particleColor: "#FF8C00"
+  },
+  jungle: {
+    name: "🌿 Jungle World",
+            background: "images/ChatGPT Image Sep 4, 2025, 03_07_48 PM.png",
+    description: "Dense jungle with ancient ruins",
+    ambientColor: "#228B22",
+    particleColor: "#32CD32"
+  },
+  legoCity: {
+    name: "🏙️ Lego City",
+    background: "images/ciudad lego.jpg",
+    description: "Vibrant Lego city with tournaments and adventures",
+    ambientColor: "#FFD700",
+    particleColor: "#FF6B6B",
+    isAdventureWorld: true,
+    tournaments: [
+      {
+        id: "beginner_tournament",
+        name: "🥉 Torneo Principiante",
+        location: { x: 200, y: 300 },
+        difficulty: "easy",
+        reward: 500,
+        description: "Perfecto para nuevos ninjas"
+      },
+      {
+        id: "intermediate_tournament", 
+        name: "🥈 Torneo Intermedio",
+        location: { x: 600, y: 250 },
+        difficulty: "medium",
+        reward: 1000,
+        description: "Para ninjas con experiencia"
+      },
+      {
+        id: "master_tournament",
+        name: "🥇 Torneo Maestro",
+        location: { x: 1000, y: 200 },
+        difficulty: "hard", 
+        reward: 2000,
+        description: "Solo para los mejores ninjas"
+      },
+      {
+        id: "championship_tournament",
+        name: "🏆 Campeonato Supremo",
+        location: { x: 400, y: 500 },
+        difficulty: "extreme",
+        reward: 5000,
+        description: "El torneo más difícil de todos"
+      }
+    ]
   }
 };
 
@@ -450,10 +1208,12 @@ canvas.style.display = "none";
 // Input event listeners
 document.addEventListener('keydown', (e) => {
   keys[e.key.toLowerCase()] = true;
+  console.log("Key pressed:", e.key.toLowerCase(), "keys object:", keys);
 });
 
 document.addEventListener('keyup', (e) => {
   keys[e.key.toLowerCase()] = false;
+  console.log("Key released:", e.key.toLowerCase());
 });
 
 canvas.addEventListener('mousemove', (e) => {
@@ -462,15 +1222,43 @@ canvas.addEventListener('mousemove', (e) => {
   mouse.y = e.clientY - rect.top;
 });
 
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+  
+  // Botón de prueba
+  if (clickX >= 50 && clickX <= 150 && clickY >= 50 && clickY <= 80) {
+    if (player1) {
+      player1.x += 50;
+      player1.y += 50;
+      console.log("TEST MOVE CLICKED! New position:", player1.x, player1.y);
+    }
+  }
+});
+
 function startWorldSelect() {
   document.getElementById("menu").style.display = "none";
   document.getElementById("worldSelect").style.display = "flex";
   gameState = "worldSelect";
+  
+  // Actualizar cash en el menú principal
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
 }
 
 function selectWorld(worldId) {
   selectedWorld = worldId;
   console.log("Selected world:", worldId, "World data:", worlds[worldId]);
+  
+  // Si se selecciona la ciudad de Lego, iniciar modo aventura directamente
+  if (worldId === 'legoCity') {
+    startAdventureMode();
+    return;
+  }
+  
+  // Para otros mundos, ir a selección de personajes
   document.getElementById("worldSelect").style.display = "none";
   document.getElementById("characterSelect").style.display = "flex";
   gameState = "characterSelect";
@@ -490,9 +1278,31 @@ function backToMenu() {
   }
   document.getElementById("menu").style.display = "flex";
   gameState = "menu";
+  
+  // Actualizar cash en el menú principal
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
 }
 
 function selectCharacter(characterId) {
+  // Verificar si el personaje está desbloqueado
+  const unlockedCharacters = JSON.parse(localStorage.getItem('unlockedCharacters') || '[]');
+  
+  // Los 4 personajes principales siempre están disponibles
+  const mainCharacters = ['kai', 'zane', 'jay', 'lloyd'];
+  const isMainCharacter = mainCharacters.includes(characterId);
+  
+  if (!isMainCharacter && !unlockedCharacters.includes(characterId)) {
+    const character = characters[characterId];
+    if (character && character.price) {
+      alert(`❌ Este personaje no está desbloqueado. Necesitas ${character.price} cash para comprarlo.`);
+    } else {
+      alert(`❌ Este personaje no está disponible.`);
+    }
+    return;
+  }
+  
   selectedCharacter = characterId;
   console.log("Selected character:", characterId);
   console.log("Character data:", characters[characterId]);
@@ -509,6 +1319,42 @@ function startBattle() {
   document.querySelector(".controls").style.display = "block";
   
   gameState = "battle";
+  
+  // Sistema de cash del jugador
+  if (!localStorage.getItem('playerCash')) {
+    localStorage.setItem('playerCash', '1000'); // Cash inicial
+  }
+  playerCash = parseInt(localStorage.getItem('playerCash'));
+  
+  // Cargar nivel y dificultad del jugador
+  if (!localStorage.getItem('playerLevel')) {
+    localStorage.setItem('playerLevel', '1');
+  }
+  playerLevel = parseInt(localStorage.getItem('playerLevel'));
+  
+  if (!localStorage.getItem('aiDifficulty')) {
+    localStorage.setItem('aiDifficulty', '1');
+  }
+  aiDifficulty = parseInt(localStorage.getItem('aiDifficulty'));
+  
+  // Verificar personajes desbloqueados
+  if (!localStorage.getItem('unlockedCharacters')) {
+    localStorage.setItem('unlockedCharacters', JSON.stringify([]));
+  }
+  const unlockedCharacters = JSON.parse(localStorage.getItem('unlockedCharacters'));
+  
+  // Actualizar cash en el menú principal
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
+  
+  // Actualizar nivel y dificultad en el menú principal
+  if (document.getElementById("menuLevel")) {
+    document.getElementById("menuLevel").textContent = playerLevel;
+  }
+  if (document.getElementById("menuDifficulty")) {
+    document.getElementById("menuDifficulty").textContent = aiDifficulty;
+  }
   
   // Update world info
   document.getElementById("worldName").textContent = worlds[selectedWorld].name;
@@ -537,6 +1383,9 @@ function startBattle() {
     facing: 1, // 1 = right, -1 = left
     animationFrame: 0
   };
+  
+  // Aplicar habilidades activas del jugador
+  applyActiveSkills(player1);
   
   // Load player 1 image with error handling
   console.log("Loading player 1 image from:", characters[selectedCharacter].img);
@@ -597,6 +1446,7 @@ function startBattle() {
   // Debug: Log final player setup
   console.log("Battle started! Player1:", player1.name, "Player2:", player2.name);
   console.log("Player1 position:", player1.x, player1.y, "Player2 position:", player2.x, player2.y);
+  console.log("Controls: WASD/Arrow keys to move, Ctrl to attack, Enter for special");
   
   // Start game loop
   gameLoop();
@@ -614,42 +1464,93 @@ function updateUI() {
 }
 
 function handlePlayerInput() {
-  if (!player1) return;
+  if (!player1) {
+    console.log("handlePlayerInput: player1 is null");
+    return;
+  }
   
-  // Movement
+  // Log de estado cada frame para debug
+  if (Math.random() < 0.1) { // 10% de las veces
+    console.log("handlePlayerInput: player1 exists, keys:", keys);
+  }
+  
+  let isMoving = false;
+  let oldX = player1.x;
+  let oldY = player1.y;
+  
+  // Movement - simplificado
   if (keys['w'] || keys['arrowup']) {
     player1.y -= player1.speed;
+    isMoving = true;
+    console.log("MOVING UP! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
   }
   if (keys['s'] || keys['arrowdown']) {
     player1.y += player1.speed;
+    isMoving = true;
+    console.log("MOVING DOWN! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
   }
   if (keys['a'] || keys['arrowleft']) {
     player1.x -= player1.speed;
     player1.facing = -1;
+    isMoving = true;
+    console.log("MOVING LEFT! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
   }
   if (keys['d'] || keys['arrowright']) {
     player1.x += player1.speed;
     player1.facing = 1;
+    isMoving = true;
+    console.log("MOVING RIGHT! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
   }
   
-  // Keep player on screen
-  player1.x = Math.max(100, Math.min(canvas.width - 100, player1.x));
-  player1.y = Math.max(100, Math.min(canvas.height - 100, player1.y));
-  
-  // Attack with Ctrl
-  if (keys['control'] && Date.now() - player1.lastAttack > player1.attackCooldown) {
-    attack(player1, player2);
-    player1.lastAttack = Date.now();
-    player1.isAttacking = true;
-    setTimeout(() => { player1.isAttacking = false; }, 200);
-  }
-  
-  // Special attack with Enter
-  if (keys['enter'] && Date.now() - player1.lastSpecial > player1.specialCooldown) {
-    specialAttack(player1, player2);
-    player1.lastSpecial = Date.now();
-    player1.isSpecialAttacking = true;
-    setTimeout(() => { player1.isSpecialAttacking = false; }, 500);
+  // Movement logic
+  if (isAdventureMode) {
+    // En modo aventura, permitir movimiento libre por el mundo
+    player1.x = Math.max(50, Math.min(canvas.width - 50, player1.x));
+    player1.y = Math.max(50, Math.min(canvas.height - 50, player1.y));
+    
+    // Actualizar posición del jugador
+    playerPosition.x = player1.x;
+    playerPosition.y = player1.y;
+    
+    // Verificar torneos cercanos
+    checkNearbyTournaments();
+    
+    // Interactuar con torneos con Enter
+    if (keys['enter'] && nearbyTournaments.length > 0) {
+      const tournament = nearbyTournaments[0];
+      enterTournamentFromAdventure(tournament);
+    }
+    
+    // Volver al menú con Escape
+    if (keys['escape']) {
+      exitAdventureMode();
+    }
+  } else {
+    // En modo batalla normal, mantener límites estrictos
+    player1.x = Math.max(100, Math.min(canvas.width - 100, player1.x));
+    player1.y = Math.max(100, Math.min(canvas.height - 100, player1.y));
+    
+    // Attack with Ctrl
+    if (keys['control'] && Date.now() - player1.lastAttack > player1.attackCooldown) {
+      attack(player1, player2);
+      player1.lastAttack = Date.now();
+      player1.isAttacking = true;
+      // Attack logic (sin animación)
+      setTimeout(() => { 
+        player1.isAttacking = false; 
+      }, 200);
+    }
+    
+    // Special attack with Enter
+    if (keys['enter'] && Date.now() - player1.lastSpecial > player1.specialCooldown) {
+      specialAttack(player1, player2);
+      player1.lastSpecial = Date.now();
+      player1.isSpecialAttacking = true;
+      // Special attack logic (sin animación)
+      setTimeout(() => { 
+        player1.isSpecialAttacking = false; 
+      }, 500);
+    }
   }
 }
 
@@ -661,29 +1562,52 @@ function updateAI() {
   const dy = target.y - player2.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
   
-  // AI behavior
+  // AI behavior con dificultad progresiva
+  const difficultyMultiplier = 0.5 + (aiDifficulty * 0.1); // 0.6 a 1.5
+  
   if (distance > 200) {
     // Chase player
     player2.state = 'chase';
-    player2.x += (dx / distance) * player2.speed * 0.6;
-    player2.y += (dy / distance) * player2.speed * 0.6;
+    const oldX = player2.x;
+    const oldY = player2.y;
+    player2.x += (dx / distance) * player2.speed * 0.6 * difficultyMultiplier;
+    player2.y += (dy / distance) * player2.speed * 0.6 * difficultyMultiplier;
     player2.facing = dx > 0 ? 1 : -1;
+    console.log("AI chasing (difficulty:", aiDifficulty, "), moved from", oldX, oldY, "to", player2.x, player2.y);
+    // AI movement (sin animación)
   } else if (distance < 80) {
     // Too close, retreat
     player2.state = 'retreat';
-    player2.x -= (dx / distance) * player2.speed * 0.4;
-    player2.y -= (dy / distance) * player2.speed * 0.4;
+    const oldX = player2.x;
+    const oldY = player2.y;
+    player2.x -= (dx / distance) * player2.speed * 0.4 * difficultyMultiplier;
+    player2.y -= (dy / distance) * player2.speed * 0.4 * difficultyMultiplier;
     player2.facing = dx > 0 ? -1 : 1;
+    console.log("AI retreating (difficulty:", aiDifficulty, "), moved from", oldX, oldY, "to", player2.x, player2.y);
+    // AI retreat logic (sin animación)
   } else {
     // Attack range
     player2.state = 'attack';
-    if (Date.now() - player2.lastAttack > 1200) {
+    
+    // Cooldowns más rápidos con mayor dificultad
+    const attackCooldown = Math.max(200, 1200 - (aiDifficulty * 100));
+    const specialCooldown = Math.max(1000, 4000 - (aiDifficulty * 300));
+    
+    if (Date.now() - player2.lastAttack > attackCooldown) {
       attack(player2, target);
       player2.lastAttack = Date.now();
+      // AI attack logic (sin animación)
+      setTimeout(() => {
+        // Attack cooldown
+      }, 200);
     }
-    if (Date.now() - player2.lastSpecial > 4000) {
+    if (Date.now() - player2.lastSpecial > specialCooldown) {
       specialAttack(player2, target);
       player2.lastSpecial = Date.now();
+      // AI special attack logic (sin animación)
+      setTimeout(() => {
+        // Special attack cooldown
+      }, 500);
     }
   }
   
@@ -702,6 +1626,9 @@ function attack(attacker, target) {
     return;
   }
   
+  // Hurt effect (sin animación)
+  // Target takes damage
+  
   // Create attack effect
   createAttackEffect(attacker.x, attacker.y, target.x, target.y);
 }
@@ -715,6 +1642,12 @@ function specialAttack(attacker, target) {
     endBattleWithWinner(attacker.name);
     return;
   }
+  
+  // Hurt effect (sin animación)
+  // Target takes damage
+  
+  // Special effect logic (sin animación)
+  // Character uses special attack
   
   // Create special attack effect
   createSpecialEffect(attacker.x, attacker.y, target.x, target.y, attacker.special);
@@ -767,6 +1700,36 @@ function createAttackEffect(ax, ay, tx, ty) {
     
     // Sword trail effect
     ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+  } else if (selectedWorld === 'jungle') {
+    // Jungle attack effect - nature's fury
+    ctx.strokeStyle = '#228B22';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+    
+    // Jungle leaves
+    ctx.fillStyle = '#32CD32';
+    for (let i = 0; i < 6; i++) {
+      const x = ax + (tx - ax) * (i + 1) / 7;
+      const y = ay + (ty - ay) * (i + 1) / 7;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 4);
+      ctx.lineTo(x + 2, y);
+      ctx.lineTo(x, y + 4);
+      ctx.lineTo(x - 2, y);
+      ctx.closePath();
+      ctx.fill();
+    }
+    
+    // Nature trail effect
+    ctx.strokeStyle = '#90EE90';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(ax, ay);
@@ -835,15 +1798,104 @@ function createSpecialEffect(ax, ay, tx, ty, specialName) {
       ctx.arc(x, y, 3, 0, Math.PI * 2);
       ctx.fill();
     }
+  } else if (selectedWorld === 'jungle') {
+    // Jungle special effect - nature's wrath
+    ctx.fillStyle = '#228B22';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(specialName, tx, ty - 30);
+    
+    // Jungle explosion
+    ctx.fillStyle = '#32CD32';
+    ctx.beginPath();
+    ctx.arc(tx, ty, 25, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Jungle vines
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const x = tx + Math.cos(angle) * 35;
+      const y = ty + Math.sin(angle) * 35;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + Math.cos(angle) * 12, y + Math.sin(angle) * 12);
+      ctx.strokeStyle = '#228B22';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+    
+    // Nature particles
+    ctx.fillStyle = '#90EE90';
+    for (let i = 0; i < 15; i++) {
+      const angle = (i / 15) * Math.PI * 2;
+      const x = tx + Math.cos(angle) * 45;
+      const y = ty + Math.sin(angle) * 45;
+      ctx.beginPath();
+      ctx.arc(x, y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Jungle leaves burst
+    ctx.fillStyle = '#228B22';
+    for (let i = 0; i < 10; i++) {
+      const angle = (i / 10) * Math.PI * 2;
+      const x = tx + Math.cos(angle) * 50;
+      const y = ty + Math.sin(angle) * 50;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 3);
+      ctx.lineTo(x + 2, y);
+      ctx.lineTo(x, y + 3);
+      ctx.lineTo(x - 2, y);
+      ctx.closePath();
+      ctx.fill();
+    }
   }
 }
 
 function endBattleWithWinner(winnerName) {
-  alert(`🏆 ${winnerName} has won the battle in ${worlds[selectedWorld].name}!`);
+  // Dar cash al ganador (solo si es el jugador humano)
+  if (winnerName === player1.name) {
+    let cashGained = 100;
+    let levelGained = 1;
+    
+    // Si es un torneo, dar recompensa especial
+    if (currentTournament) {
+      cashGained = currentTournament.reward;
+      levelGained = Math.floor(cashGained / 500); // 1 nivel por cada 500 cash
+      alert(`🏆 ¡${winnerName} ha ganado el ${currentTournament.name}! 💰 +${cashGained} cash (Total: ${playerCash + cashGained}) 🆙 +${levelGained} nivel(es)`);
+      currentTournament = null; // Limpiar torneo actual
+    } else {
+      alert(`🏆 ¡${winnerName} ha ganado la batalla en ${worlds[selectedWorld].name}! 💰 +${cashGained} cash (Total: ${playerCash + cashGained}) 🆙 Nivel ${playerLevel + levelGained}`);
+    }
+    
+    playerCash += cashGained;
+    playerLevel += levelGained;
+    aiDifficulty = Math.min(10, Math.floor(playerLevel / 3) + 1); // Dificultad aumenta cada 3 niveles
+    
+    localStorage.setItem('playerCash', playerCash.toString());
+    localStorage.setItem('playerLevel', playerLevel.toString());
+    localStorage.setItem('aiDifficulty', aiDifficulty.toString());
+  } else {
+    if (currentTournament) {
+      alert(`🏆 ${winnerName} ha ganado el ${currentTournament.name}! Mejor suerte la próxima vez.`);
+      currentTournament = null;
+    } else {
+      alert(`🏆 ${winnerName} ha ganado la batalla en ${worlds[selectedWorld].name}!`);
+    }
+  }
   endBattle();
 }
 
 function endBattle() {
+  // Si estamos en modo aventura, volver al modo aventura después del torneo
+  if (isAdventureMode) {
+    // Volver al modo aventura
+    player2 = null; // Solo limpiar el oponente
+    gameState = "battle"; // Mantener el estado de batalla para el renderizado
+    return; // No cambiar la interfaz
+  }
+  
+  // Si no es modo aventura, volver al menú normal
   gameState = "menu";
   canvas.style.display = "none";
   document.getElementById("gameUI").style.display = "none";
@@ -856,13 +1908,24 @@ function endBattle() {
   player2 = null;
   selectedCharacter = null;
   selectedWorld = null;
+  isAdventureMode = false;
+  
+  // Actualizar cash en el menú principal
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
 }
 
 function gameLoop() {
-  if (gameState !== "battle") return;
+  if (gameState !== "battle") {
+    console.log("Game loop stopped: gameState =", gameState);
+    return;
+  }
   
-  // Debug: Log game loop execution
-  console.log("Game loop running, rendering frame");
+  // Debug: Log game loop execution (solo cada 60 frames para no saturar)
+  if (Math.random() < 0.016) { // ~1 vez por segundo
+    console.log("Game loop running, gameState:", gameState, "isAdventureMode:", isAdventureMode, "player1:", player1 ? `${player1.name} at ${player1.x},${player1.y}` : "null");
+  }
   
   handlePlayerInput();
   updateAI();
@@ -924,6 +1987,54 @@ function render() {
         ctx.arc(x, y, 30 + Math.sin(Date.now() / 500 + i) * 10, 0, Math.PI * 2);
         ctx.fill();
       }
+    } else if (selectedWorld === 'jungle') {
+      // Jungle world ambient effect - lush green atmosphere
+      ctx.fillStyle = 'rgba(34, 139, 34, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Jungle leaves and particles
+      ctx.fillStyle = '#32CD32';
+      for (let i = 0; i < 30; i++) {
+        const x = (Date.now() / 12 + i * 40) % canvas.width;
+        const y = (Date.now() / 8 + i * 25) % canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Jungle mist effect
+      ctx.fillStyle = 'rgba(50, 205, 50, 0.2)';
+      for (let i = 0; i < 6; i++) {
+        const x = (Date.now() / 20 + i * 300) % canvas.width;
+        const y = 30 + Math.sin(Date.now() / 1500 + i) * 15;
+        ctx.beginPath();
+        ctx.arc(x, y, 40 + Math.sin(Date.now() / 800 + i) * 15, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (selectedWorld === 'legoCity') {
+      // Lego City ambient effect - vibrant city atmosphere
+      ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // City sparkles and lights
+      ctx.fillStyle = '#FF6B6B';
+      for (let i = 0; i < 40; i++) {
+        const x = (Date.now() / 8 + i * 30) % canvas.width;
+        const y = (Date.now() / 6 + i * 20) % canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // City glow effect
+      ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
+      for (let i = 0; i < 8; i++) {
+        const x = (Date.now() / 25 + i * 200) % canvas.width;
+        const y = 20 + Math.sin(Date.now() / 2000 + i) * 10;
+        ctx.beginPath();
+        ctx.arc(x, y, 50 + Math.sin(Date.now() / 1000 + i) * 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
   }
   
@@ -970,102 +2081,88 @@ function render() {
       ctx.lineTo(x + 40, canvas.height - 150);
       ctx.stroke();
     }
+  } else if (selectedWorld === 'jungle') {
+    // Jungle world platform - ancient stone platform
+    ctx.fillStyle = 'rgba(139, 115, 85, 0.4)';
+    ctx.fillRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Stone platform border
+    ctx.strokeStyle = 'rgba(101, 67, 33, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(50, canvas.height - 150, canvas.width - 100, 100);
+    
+    // Jungle vines and moss on platform
+    ctx.strokeStyle = 'rgba(34, 139, 34, 0.5)';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 4; i++) {
+      const x = 120 + i * 180;
+      ctx.beginPath();
+      ctx.moveTo(x, canvas.height - 150);
+      ctx.lineTo(x + 30, canvas.height - 120);
+      ctx.lineTo(x + 60, canvas.height - 150);
+      ctx.stroke();
+    }
+    
+    // Ancient stone patterns
+    ctx.strokeStyle = 'rgba(160, 82, 45, 0.4)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 3; i++) {
+      const x = 100 + i * 200;
+      ctx.beginPath();
+      ctx.moveTo(x, canvas.height - 130);
+      ctx.lineTo(x + 100, canvas.height - 130);
+      ctx.stroke();
+    }
   }
   
-  // Draw players with proper positioning and facing
-  // PNG images with transparency will show without background
-  // If images have white/colored backgrounds, they will appear with those backgrounds
-  
-  // Debug: Log player positions and status
-  if (player1) {
-    console.log("Rendering player1:", player1.name, "at", player1.x, player1.y, "health:", player1.health);
-  }
-  if (player2) {
-    console.log("Rendering player2:", player2.name, "at", player2.x, player2.y, "health:", player2.health);
-  }
-  
+  // Draw players (sistema estático sin animaciones)
   if (player1) {
     // Draw player 1
-    console.log("Player1 image status:", player1.image ? "exists" : "null", 
-                player1.image && player1.image.complete ? "complete" : "incomplete");
-    
     if (player1.image && player1.image.complete) {
-      console.log("Drawing player1 image successfully");
       ctx.save();
-      if (player1.facing === -1) {
-        ctx.scale(-1, 1);
-        ctx.drawImage(player1.image, -player1.x - 25, player1.y - 25, 50, 50);
-      } else {
-        ctx.drawImage(player1.image, player1.x - 25, player1.y - 25, 50, 50);
-      }
+      ctx.scale(player1.facing, 1);
+      const drawX = player1.facing === 1 ? player1.x : -player1.x;
+      ctx.drawImage(player1.image, drawX - 40, player1.y - 50, 80, 100); // Tamaño más grande
       ctx.restore();
     } else {
-      console.log("Using fallback rectangle for player1");
-      // Fallback: draw colored rectangle if image failed to load
-      ctx.fillStyle = player1.color || '#ff0000';
-      ctx.fillRect(player1.x - 25, player1.y - 25, 50, 50);
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(player1.x - 25, player1.y - 25, 50, 50);
+      // Fallback: dibujar rectángulo de color más grande
+      ctx.fillStyle = player1.color || '#00ff00'; // Verde para Lloyd
+      ctx.fillRect(player1.x - 40, player1.y - 50, 80, 100); // Tamaño más grande
+      // Log para debug
+      if (Math.random() < 0.01) { // Solo ocasionalmente para no saturar
+        console.log("Player1 image not loaded, using fallback rectangle. Image complete:", player1.image ? player1.image.complete : "no image");
+      }
     }
     
-    // Draw weapon (like the golden sword in the image)
+    // Draw weapon
     if (player1.weapon) {
       ctx.fillStyle = '#FFD700';
-      ctx.font = '10px Arial';
+      ctx.font = '12px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText(player1.weapon, player1.x, player1.y + 40);
-    }
-    
-    // Draw attack indicator
-    if (player1.isAttacking) {
-      ctx.strokeStyle = world.ambientColor;
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(player1.x, player1.y, 35, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-    
-    if (player1.isSpecialAttacking) {
-      ctx.strokeStyle = world.particleColor;
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.arc(player1.x, player1.y, 40, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.fillText(player1.weapon, player1.x, player1.y + 60);
     }
   }
   
   if (player2) {
     // Draw player 2
-    console.log("Player2 image status:", player2.image ? "exists" : "null", 
-                player2.image && player2.image.complete ? "complete" : "incomplete");
-    
     if (player2.image && player2.image.complete) {
-      console.log("Drawing player2 image successfully");
       ctx.save();
-      if (player2.facing === -1) {
-        ctx.scale(-1, 1);
-        ctx.drawImage(player2.image, -player2.x - 25, player2.y - 25, 50, 50);
-      } else {
-        ctx.drawImage(player2.image, player2.x - 25, player2.y - 25, 50, 50);
-      }
+      ctx.scale(player2.facing, 1);
+      const drawX = player2.facing === 1 ? player2.x : -player2.x;
+      ctx.drawImage(player2.image, drawX - 32, player2.y - 32, 64, 64);
       ctx.restore();
     } else {
-      console.log("Using fallback rectangle for player2");
-      // Fallback: draw colored rectangle if image failed to load
+      // Fallback: dibujar rectángulo de color
       ctx.fillStyle = player2.color || '#0000ff';
       ctx.fillRect(player2.x - 25, player2.y - 25, 50, 50);
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(player2.x - 25, player2.y - 25, 50, 50);
     }
     
     // Draw weapon
     if (player2.weapon) {
       ctx.fillStyle = '#FFD700';
-      ctx.font = '10px Arial';
+      ctx.font = '12px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText(player2.weapon, player2.x, player2.y + 40);
+      ctx.fillText(player2.weapon, player2.x, player2.y + 60);
     }
     
     // Draw AI state indicator
@@ -1074,6 +2171,115 @@ function render() {
     ctx.font = '12px Arial';
     ctx.textAlign = 'center';
     ctx.fillText(player2.state.toUpperCase(), player2.x, player2.y - 40);
+  }
+  
+  // Draw tournaments in adventure mode
+  if (isAdventureMode && selectedWorld === 'legoCity' && worlds[selectedWorld].tournaments) {
+    const tournaments = worlds[selectedWorld].tournaments;
+    
+    tournaments.forEach(tournament => {
+      const x = tournament.location.x;
+      const y = tournament.location.y;
+      
+      // Draw tournament marker
+      ctx.save();
+      
+      // Tournament glow effect
+      const glowIntensity = 0.3 + 0.2 * Math.sin(Date.now() / 1000);
+      ctx.fillStyle = `rgba(255, 215, 0, ${glowIntensity})`;
+      ctx.beginPath();
+      ctx.arc(x, y, 60, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Tournament icon based on difficulty
+      let icon = '🏆';
+      let color = '#FFD700';
+      switch(tournament.difficulty) {
+        case 'easy':
+          icon = '🥉';
+          color = '#4CAF50';
+          break;
+        case 'medium':
+          icon = '🥈';
+          color = '#FF9800';
+          break;
+        case 'hard':
+          icon = '🥇';
+          color = '#F44336';
+          break;
+        case 'extreme':
+          icon = '🏆';
+          color = '#9C27B0';
+          break;
+      }
+      
+      // Draw tournament icon
+      ctx.fillStyle = color;
+      ctx.font = '30px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(icon, x, y + 10);
+      
+      // Draw tournament name
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 12px Arial';
+      ctx.fillText(tournament.name, x, y + 50);
+      
+      // Draw reward
+      ctx.fillStyle = '#00FF00';
+      ctx.font = '10px Arial';
+      ctx.fillText(`💰 ${tournament.reward}`, x, y + 65);
+      
+      ctx.restore();
+    });
+    
+    // Draw interaction prompt for nearby tournaments
+    if (nearbyTournaments.length > 0) {
+      const tournament = nearbyTournaments[0];
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.fillRect(10, canvas.height - 80, 300, 70);
+      
+      ctx.fillStyle = '#FFD700';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('🏆 Torneo Cercano!', 20, canvas.height - 60);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '12px Arial';
+      ctx.fillText(tournament.name, 20, canvas.height - 45);
+      ctx.fillText(`Recompensa: 💰 ${tournament.reward} cash`, 20, canvas.height - 30);
+      ctx.fillText('Presiona ENTER para participar', 20, canvas.height - 15);
+    }
+    
+    // Draw adventure mode controls
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.fillRect(canvas.width - 200, 10, 190, 140);
+    
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('🎮 Controles:', canvas.width - 190, 30);
+    ctx.fillText('WASD - Mover', canvas.width - 190, 45);
+    ctx.fillText('ENTER - Interactuar', canvas.width - 190, 60);
+    ctx.fillText('ESC - Salir', canvas.width - 190, 75);
+    ctx.fillText(`💰 Cash: ${playerCash}`, canvas.width - 190, 95);
+    ctx.fillText('🥷 Jugando como Lloyd', canvas.width - 190, 110);
+    ctx.fillText(`Pos: ${Math.round(player1.x)}, ${Math.round(player1.y)}`, canvas.width - 190, 125);
+    
+    // Indicador visual de movimiento
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+    ctx.fillRect(player1.x - 5, player1.y - 5, 10, 10);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('LLOYD', player1.x, player1.y - 60);
+    
+    // Botón de prueba temporal
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.8)';
+    ctx.fillRect(50, 50, 100, 30);
+    ctx.fillStyle = 'black';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('TEST MOVE', 100, 70);
   }
   
   // Draw health numbers
@@ -1096,13 +2302,710 @@ function render() {
 }
 
 function openShop() {
-  alert("🛒 Shop is under construction!");
+  // Ocultar menú principal
+  document.getElementById("menu").style.display = "none";
+  
+  // Mostrar tienda
+  document.getElementById("shop").style.display = "flex";
+  gameState = "shop";
+  
+  // Actualizar información de la tienda
+  updateShopInfo();
+}
+
+function updateShopInfo() {
+  // Actualizar cash en la tienda
+  document.getElementById("shopCash").textContent = playerCash;
+  
+  // Verificar si el personaje ya está desbloqueado
+  const unlockedCharacters = JSON.parse(localStorage.getItem('unlockedCharacters') || '[]');
+  const ninjaAzulButton = document.getElementById("buyNinjaAzul");
+  const ninjaAzulImage = document.getElementById("ninjaAzulImage");
+  
+  if (unlockedCharacters.includes('ninjaAzul')) {
+    ninjaAzulButton.textContent = "Ya Desbloqueado";
+    ninjaAzulButton.disabled = true;
+    // Mostrar imagen normal (sin fondo)
+    ninjaAzulImage.src = "images/ChatGPT Image Sep 4, 2025, 03_29_16 PM-fotor-bg-remover-2025090415471.png";
+    ninjaAzulImage.style.filter = "none";
+  } else {
+    ninjaAzulButton.textContent = "Comprar (1,000 Cash)";
+    ninjaAzulButton.disabled = false;
+    // Mostrar imagen en gris (con fondo)
+    ninjaAzulImage.src = "images/ChatGPT Image Sep 4, 2025, 03_29_16 PM.png";
+    ninjaAzulImage.style.filter = "grayscale(100%) brightness(0.5)";
+  }
+  
+  // Mostrar habilidades activas del jugador
+  showActiveSkills();
+}
+
+function showActiveSkills() {
+  const activeSkills = JSON.parse(localStorage.getItem('activeSkills') || '[]');
+  const skillsContainer = document.getElementById("activeSkills");
+  
+  if (skillsContainer) {
+    if (activeSkills.length === 0) {
+      skillsContainer.innerHTML = '<p style="color: #ccc; text-align: center;">No tienes habilidades activas</p>';
+    } else {
+      let skillsHTML = '<h4 style="color: #00ff00; text-align: center;">Habilidades Activas:</h4>';
+      activeSkills.forEach(skillId => {
+        skillsHTML += `<div style="color: #00ff00; margin: 5px 0;">⚡ ${getSkillName(skillId)}</div>`;
+      });
+      skillsContainer.innerHTML = skillsHTML;
+    }
+  }
+}
+
+function buyCash(amount, priceUSD) {
+  alert(`💳 Para comprar ${amount.toLocaleString()} cash por $${priceUSD} USD, contacta al administrador del juego.`);
+}
+
+function buyCharacter(characterId) {
+  const character = characters[characterId];
+  if (!character) {
+    alert("❌ Personaje no encontrado.");
+    return;
+  }
+  
+  if (playerCash < character.price) {
+    alert(`❌ No tienes suficiente cash. Necesitas ${character.price} cash, pero tienes ${playerCash}.`);
+    return;
+  }
+  
+  // Comprar personaje
+  playerCash -= character.price;
+  localStorage.setItem('playerCash', playerCash.toString());
+  
+  // Desbloquear personaje
+  const unlockedCharacters = JSON.parse(localStorage.getItem('unlockedCharacters') || '[]');
+  if (!unlockedCharacters.includes(characterId)) {
+    unlockedCharacters.push(characterId);
+    localStorage.setItem('unlockedCharacters', JSON.stringify(unlockedCharacters));
+  }
+  
+  // Actualizar UI
+  document.getElementById("menuCash").textContent = playerCash;
+  
+  // Si es la ninja azul, actualizar la imagen inmediatamente
+  if (characterId === 'ninjaAzul') {
+    const ninjaAzulImage = document.getElementById("ninjaAzulImage");
+    if (ninjaAzulImage) {
+      ninjaAzulImage.src = "images/ChatGPT Image Sep 4, 2025, 03_29_16 PM-fotor-bg-remover-2025090415471.png";
+      ninjaAzulImage.style.filter = "none";
+    }
+  }
+  
+  updateShopInfo();
+  
+  alert(`🎉 ¡Has desbloqueado a ${character.name}! Ahora puedes usarlo en batalla.`);
+}
+
+function backToMenuFromShop() {
+  document.getElementById("shop").style.display = "none";
+  document.getElementById("menu").style.display = "flex";
+  gameState = "menu";
+  
+  // Actualizar cash en el menú principal
+  document.getElementById("menuCash").textContent = playerCash;
+}
+
+function buySkillBox(boxType) {
+  const prices = {
+    'common': 500,
+    'rare': 1500,
+    'epic': 3000,
+    'legendary': 7500
+  };
+  
+  const price = prices[boxType];
+  
+  if (playerCash < price) {
+    alert(`❌ No tienes suficiente cash. Necesitas ${price} cash, pero tienes ${playerCash}.`);
+    return;
+  }
+  
+  // Comprar caja
+  playerCash -= price;
+  localStorage.setItem('playerCash', playerCash.toString());
+  
+  // Generar habilidades aleatorias
+  const skills = generateRandomSkills(boxType);
+  
+  // Actualizar UI
+  document.getElementById("shopCash").textContent = playerCash;
+  document.getElementById("menuCash").textContent = playerCash;
+  
+  // Mostrar habilidades obtenidas
+  showObtainedSkills(skills, boxType);
+}
+
+function generateRandomSkills(boxType) {
+  const skillPools = {
+    'common': [
+      { name: 'Ataque Rápido', effect: 'attack', value: 5, description: '+5 Attack' },
+      { name: 'Defensa Básica', effect: 'defense', value: 3, description: '+3 Defense' },
+      { name: 'Velocidad Extra', effect: 'speed', value: 1, description: '+1 Speed' },
+      { name: 'Vida Extra', effect: 'health', value: 20, description: '+20 Health' }
+    ],
+    'rare': [
+      { name: 'Ataque Fuerte', effect: 'attack', value: 10, description: '+10 Attack' },
+      { name: 'Defensa Sólida', effect: 'defense', value: 8, description: '+8 Defense' },
+      { name: 'Velocidad Mejorada', effect: 'speed', value: 2, description: '+2 Speed' },
+      { name: 'Vida Mejorada', effect: 'health', value: 40, description: '+40 Health' },
+      { name: 'Daño Especial', effect: 'specialDamage', value: 15, description: '+15 Special Damage' }
+    ],
+    'epic': [
+      { name: 'Ataque Épico', effect: 'attack', value: 15, description: '+15 Attack' },
+      { name: 'Defensa Épica', effect: 'defense', value: 12, description: '+12 Defense' },
+      { name: 'Velocidad Épica', effect: 'speed', value: 3, description: '+3 Speed' },
+      { name: 'Vida Épica', effect: 'health', value: 60, description: '+60 Health' },
+      { name: 'Daño Especial Épico', effect: 'specialDamage', value: 25, description: '+25 Special Damage' },
+      { name: 'Regeneración', effect: 'regeneration', value: 5, description: '+5 HP per second' }
+    ],
+    'legendary': [
+      { name: 'Ataque Legendario', effect: 'attack', value: 25, description: '+25 Attack' },
+      { name: 'Defensa Legendaria', effect: 'defense', value: 20, description: '+20 Defense' },
+      { name: 'Velocidad Legendaria', effect: 'speed', value: 5, description: '+5 Speed' },
+      { name: 'Vida Legendaria', effect: 'health', value: 100, description: '+100 Health' },
+      { name: 'Daño Especial Legendario', effect: 'specialDamage', value: 40, description: '+40 Special Damage' },
+      { name: 'Inmortalidad', effect: 'immortality', value: 1, description: 'Cannot die below 1 HP' }
+    ]
+  };
+  
+  const pool = skillPools[boxType];
+  const minSkills = boxType === 'common' ? 1 : boxType === 'rare' ? 2 : boxType === 'epic' ? 3 : 4;
+  const maxSkills = boxType === 'common' ? 3 : boxType === 'rare' ? 4 : boxType === 'epic' ? 5 : 6;
+  const numSkills = Math.floor(Math.random() * (maxSkills - minSkills + 1)) + minSkills;
+  
+  const selectedSkills = [];
+  for (let i = 0; i < numSkills; i++) {
+    const randomSkill = pool[Math.floor(Math.random() * pool.length)];
+    selectedSkills.push({...randomSkill, id: Date.now() + i});
+  }
+  
+  return selectedSkills;
+}
+
+function showObtainedSkills(skills, boxType) {
+  let message = `🎁 ¡Has abierto una ${getBoxTypeName(boxType)}!\n\nHabilidades obtenidas:\n\n`;
+  
+  skills.forEach(skill => {
+    message += `✨ ${skill.name}: ${skill.description}\n`;
+  });
+  
+  message += `\n💰 Cash restante: ${playerCash}`;
+  
+  alert(message);
+}
+
+function getBoxTypeName(boxType) {
+  const names = {
+    'common': 'Caja Común',
+    'rare': 'Caja Rara',
+    'epic': 'Caja Épica',
+    'legendary': 'Caja Legendaria'
+  };
+  return names[boxType] || boxType;
+}
+
+function buySkill(skillId) {
+  const skillPrices = {
+    'fireBoost': 800,
+    'iceBoost': 800,
+    'lightningBoost': 800,
+    'energyBoost': 800
+  };
+  
+  const price = skillPrices[skillId];
+  
+  if (playerCash < price) {
+    alert(`❌ No tienes suficiente cash. Necesitas ${price} cash, pero tienes ${playerCash}.`);
+    return;
+  }
+  
+  // Comprar habilidad
+  playerCash -= price;
+  localStorage.setItem('playerCash', playerCash.toString());
+  
+  // Aplicar habilidad
+  applySkill(skillId);
+  
+  // Actualizar UI
+  document.getElementById("shopCash").textContent = playerCash;
+  document.getElementById("menuCash").textContent = playerCash;
+  
+  alert(`⚡ ¡Has comprado la habilidad ${getSkillName(skillId)}!`);
+}
+
+function getSkillName(skillId) {
+  const names = {
+    'fireBoost': 'Fuego Mejorado',
+    'iceBoost': 'Hielo Mejorado',
+    'lightningBoost': 'Rayo Mejorado',
+    'energyBoost': 'Energía Mejorada'
+  };
+  return names[skillId] || skillId;
+}
+
+function applySkill(skillId) {
+  // Obtener habilidades activas del jugador
+  let activeSkills = JSON.parse(localStorage.getItem('activeSkills') || '[]');
+  
+  // Agregar nueva habilidad
+  if (!activeSkills.includes(skillId)) {
+    activeSkills.push(skillId);
+    localStorage.setItem('activeSkills', JSON.stringify(activeSkills));
+  }
+}
+
+function applyActiveSkills(player) {
+  const activeSkills = JSON.parse(localStorage.getItem('activeSkills') || '[]');
+  
+  activeSkills.forEach(skillId => {
+    switch (skillId) {
+      case 'fireBoost':
+        if (player.id === 'kai') {
+          player.specialDamage = Math.floor(player.specialDamage * 1.25);
+        }
+        break;
+      case 'iceBoost':
+        if (player.id === 'zane') {
+          player.specialDamage = Math.floor(player.specialDamage * 1.25);
+        }
+        break;
+      case 'lightningBoost':
+        if (player.id === 'jay') {
+          player.specialDamage = Math.floor(player.specialDamage * 1.25);
+        }
+        break;
+      case 'energyBoost':
+        if (player.id === 'lloyd') {
+          player.specialDamage = Math.floor(player.specialDamage * 1.25);
+        }
+        break;
+    }
+  });
+}
+
+// Funciones del modo aventura
+function startAdventureMode() {
+  // Ocultar menú principal y selección de mundos
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("worldSelect").style.display = "none";
+  
+  // Configurar para modo aventura en Lego City
+  isAdventureMode = true;
+  selectedWorld = 'legoCity';
+  selectedCharacter = 'lloyd'; // Lloyd (Ninja Verde) como personaje por defecto
+  
+  // Mostrar canvas y ocultar otros elementos
+  canvas.style.display = "block";
+  document.getElementById("adventureMode").style.display = "none";
+  
+  // Asegurar que el canvas tenga foco para recibir eventos de teclado
+  canvas.focus();
+  canvas.tabIndex = 0;
+  
+  // Inicializar jugador para modo aventura
+  player1 = {
+    id: 'player1',
+    name: 'Lloyd (Green Ninja)',
+    x: playerPosition.x,
+    y: playerPosition.y,
+    width: 80,
+    height: 100, // Más alto
+    speed: 8, // Más rápido
+    health: 100,
+    maxHealth: 100,
+    facing: 1,
+    image: new Image()
+  };
+  
+  // Cargar imagen del personaje
+  player1.image.src = characters[selectedCharacter].img;
+  console.log("Adventure mode: Initialized player1:", player1);
+  console.log("Adventure mode: Character image src:", characters[selectedCharacter].img);
+  
+  // Verificar cuando la imagen se carga
+  player1.image.onload = function() {
+    console.log("Adventure mode: Character image loaded successfully");
+  };
+  
+  player1.image.onerror = function() {
+    console.log("Adventure mode: Error loading character image");
+  };
+  
+  // Actualizar información del modo aventura
+  updateAdventureInfo();
+  
+  // Cambiar estado del juego
+  gameState = "battle"; // Usar el mismo estado para el renderizado
+  
+  // Iniciar loop del juego
+  gameLoop();
+  
+  // Sistema de movimiento alternativo - más simple
+  console.log("Starting alternative movement system");
+  setInterval(() => {
+    if (isAdventureMode && player1) {
+      // Movimiento simple y directo
+      if (keys['w'] || keys['arrowup']) {
+        player1.y -= 5;
+        console.log("ALT MOVEMENT UP:", player1.x, player1.y);
+      }
+      if (keys['s'] || keys['arrowdown']) {
+        player1.y += 5;
+        console.log("ALT MOVEMENT DOWN:", player1.x, player1.y);
+      }
+      if (keys['a'] || keys['arrowleft']) {
+        player1.x -= 5;
+        player1.facing = -1;
+        console.log("ALT MOVEMENT LEFT:", player1.x, player1.y);
+      }
+      if (keys['d'] || keys['arrowright']) {
+        player1.x += 5;
+        player1.facing = 1;
+        console.log("ALT MOVEMENT RIGHT:", player1.x, player1.y);
+      }
+      
+      // Mantener dentro de límites
+      player1.x = Math.max(50, Math.min(canvas.width - 50, player1.x));
+      player1.y = Math.max(50, Math.min(canvas.height - 50, player1.y));
+    }
+  }, 50); // Cada 50ms
+}
+
+function updateAdventureInfo() {
+  // Actualizar cash, nivel y dificultad en el modo aventura
+  if (document.getElementById("adventureCash")) {
+    document.getElementById("adventureCash").textContent = playerCash;
+  }
+  if (document.getElementById("adventureLevel")) {
+    document.getElementById("adventureLevel").textContent = playerLevel;
+  }
+  if (document.getElementById("adventureDifficulty")) {
+    document.getElementById("adventureDifficulty").textContent = aiDifficulty;
+  }
+}
+
+function checkNearbyTournaments() {
+  if (!isAdventureMode || !worlds[selectedWorld] || !worlds[selectedWorld].tournaments) return;
+  
+  nearbyTournaments = [];
+  const tournaments = worlds[selectedWorld].tournaments;
+  
+  tournaments.forEach(tournament => {
+    const distance = Math.sqrt(
+      Math.pow(player1.x - tournament.location.x, 2) + 
+      Math.pow(player1.y - tournament.location.y, 2)
+    );
+    
+    if (distance < 80) { // Radio de detección
+      nearbyTournaments.push(tournament);
+    }
+  });
+}
+
+function enterTournamentFromAdventure(tournament) {
+  if (!tournament) return;
+  
+  const difficultyNames = {
+    'easy': 'Fácil',
+    'medium': 'Intermedio', 
+    'hard': 'Difícil',
+    'extreme': 'Extremo'
+  };
+  
+  const rewards = {
+    'easy': 500,
+    'medium': 1000,
+    'hard': 2000,
+    'extreme': 5000
+  };
+  
+  const difficultyMultipliers = {
+    'easy': 0.5,
+    'medium': 1.0,
+    'hard': 1.5,
+    'extreme': 2.0
+  };
+  
+  // Confirmar entrada al torneo
+  if (confirm(`🏆 ${tournament.name}\n\n${tournament.description}\n\nRecompensa: 💰 ${tournament.reward} cash\nDificultad: ${difficultyNames[tournament.difficulty]}\n\n¿Quieres participar?`)) {
+    // Salir del modo aventura
+    isAdventureMode = false;
+    
+    // Configurar torneo
+    currentTournament = tournament;
+    
+    // Iniciar batalla del torneo
+    startTournamentBattle(tournament, difficultyMultipliers[tournament.difficulty], tournament.reward);
+  }
+}
+
+function startTournamentBattle(tournament, difficultyMultiplier, reward) {
+  // Configurar oponente para el torneo
+  const opponentCharacters = ['kai', 'zane', 'lloyd', 'cole', 'jay', 'nya'];
+  const randomOpponent = opponentCharacters[Math.floor(Math.random() * opponentCharacters.length)];
+  
+  player2 = {
+    id: 'opponent',
+    name: `Oponente del ${tournament.name}`,
+    x: canvas.width - 150,
+    y: canvas.height / 2,
+    width: 64,
+    height: 64,
+    speed: 3 * difficultyMultiplier,
+    health: 100 * difficultyMultiplier,
+    maxHealth: 100 * difficultyMultiplier,
+    facing: -1,
+    target: player1,
+    image: new Image(),
+    lastAttack: 0,
+    attackCooldown: 1000 / difficultyMultiplier,
+    lastSpecial: 0,
+    specialCooldown: 3000 / difficultyMultiplier
+  };
+  
+  player2.image.src = characters[randomOpponent].img;
+  
+  // Ajustar dificultad de la IA
+  aiDifficulty = Math.min(10, Math.floor(difficultyMultiplier * 5));
+  
+  // Iniciar batalla
+  gameState = "battle";
+  updateUI();
+}
+
+function exitAdventureMode() {
+  isAdventureMode = false;
+  player1 = null;
+  player2 = null;
+  canvas.style.display = "none";
+  document.getElementById("worldSelect").style.display = "flex";
+  gameState = "worldSelect";
+}
+
+function enterTournament(district, difficulty) {
+  const difficultyNames = {
+    'easy': 'Fácil',
+    'medium': 'Intermedio',
+    'hard': 'Difícil'
+  };
+  
+  const rewards = {
+    'easy': 150,
+    'medium': 300,
+    'hard': 500
+  };
+  
+  const difficultyMultipliers = {
+    'easy': 0.5,
+    'medium': 1.0,
+    'hard': 1.5
+  };
+  
+  // Confirmar entrada al torneo
+  if (confirm(`🏆 ¿Quieres entrar al Torneo ${difficultyNames[difficulty]} en el Distrito ${district}?\n\nRecompensa: 💰 ${rewards[difficulty]} cash\nDificultad: ${difficultyNames[difficulty]}`)) {
+    // Ocultar modo aventura
+    document.getElementById("adventureMode").style.display = "none";
+    
+    // Iniciar torneo
+    startTournament(district, difficulty, difficultyMultipliers[difficulty], rewards[difficulty]);
+  }
+}
+
+function startTournament(district, difficulty, difficultyMultiplier, reward) {
+  // Configurar torneo
+  gameState = "tournament";
+  currentTournament = {
+    district: district,
+    difficulty: difficulty,
+    difficultyMultiplier: difficultyMultiplier,
+    reward: reward,
+    currentRound: 1,
+    totalRounds: 3,
+    opponents: generateTournamentOpponents(difficulty, difficultyMultiplier)
+  };
+  
+  // Mostrar información del torneo
+  showTournamentInfo();
+}
+
+function generateTournamentOpponents(difficulty, difficultyMultiplier) {
+  const opponents = [];
+  const characterIds = Object.keys(characters);
+  
+  for (let i = 0; i < 3; i++) {
+    const randomCharacterId = characterIds[Math.floor(Math.random() * characterIds.length)];
+    const baseCharacter = characters[randomCharacterId];
+    
+    // Crear oponente con stats modificados según dificultad
+    const opponent = {
+      id: `tournament_${i}`,
+      name: `${baseCharacter.name} (Torneo)`,
+      img: baseCharacter.img,
+      attack: Math.floor(baseCharacter.attack * difficultyMultiplier),
+      defense: Math.floor(baseCharacter.defense * difficultyMultiplier),
+      special: baseCharacter.special,
+      specialDamage: Math.floor(baseCharacter.specialDamage * difficultyMultiplier),
+      speed: Math.floor(baseCharacter.speed * difficultyMultiplier),
+      weapon: baseCharacter.weapon,
+      maxHealth: Math.floor(baseCharacter.maxHealth * difficultyMultiplier),
+      health: Math.floor(baseCharacter.maxHealth * difficultyMultiplier),
+      isTournamentOpponent: true
+    };
+    
+    opponents.push(opponent);
+  }
+  
+  return opponents;
+}
+
+function showTournamentInfo() {
+  const tournament = currentTournament;
+  
+  // Crear interfaz del torneo
+  const tournamentHTML = `
+    <div id="tournamentUI" class="tournamentUI">
+      <h2>🏆 Torneo ${tournament.difficulty.toUpperCase()} - Ronda ${tournament.currentRound}/3</h2>
+      <div class="tournamentProgress">
+        <div class="progressBar">
+          <div class="progressFill" style="width: ${(tournament.currentRound - 1) / 3 * 100}%"></div>
+        </div>
+      </div>
+      <div class="opponentInfo">
+        <h3>Próximo Oponente:</h3>
+        <div class="opponentCard">
+          <h4>${tournament.opponents[tournament.currentRound - 1].name}</h4>
+          <p>Attack: ${tournament.opponents[tournament.currentRound - 1].attack}</p>
+          <p>Defense: ${tournament.opponents[tournament.currentRound - 1].defense}</p>
+          <p>Health: ${tournament.opponents[tournament.currentRound - 1].maxHealth}</p>
+        </div>
+      </div>
+      <button onclick="startTournamentBattle()" class="startBattleBtn">⚔️ Iniciar Batalla</button>
+      <button onclick="exitTournament()" class="exitBtn">❌ Salir del Torneo</button>
+    </div>
+  `;
+  
+  // Agregar al DOM
+  document.body.insertAdjacentHTML('beforeend', tournamentHTML);
+}
+
+function startTournamentBattle() {
+  // Ocultar interfaz del torneo
+  const tournamentUI = document.getElementById("tournamentUI");
+  if (tournamentUI) {
+    tournamentUI.remove();
+  }
+  
+  // Iniciar batalla del torneo
+  const tournament = currentTournament;
+  const opponent = tournament.opponents[tournament.currentRound - 1];
+  
+  // Configurar batalla
+  selectedWorld = 'central'; // Mundo por defecto para torneos
+  selectedCharacter = 'kai'; // Personaje por defecto (se puede cambiar)
+  
+  // Iniciar batalla
+  startBattle();
+  
+  // Configurar oponente del torneo
+  player2 = opponent;
+  player2.x = canvas.width - 150;
+  player2.y = canvas.height - 200;
+  player2.target = player1;
+  player2.state = 'chase';
+  player2.facing = -1;
+  player2.lastAttack = 0;
+  player2.lastSpecial = 0;
+  
+  // Cargar imagen del oponente
+  player2.image = new Image();
+  player2.image.src = opponent.img;
+  
+  // Modificar función de fin de batalla para torneos
+  originalEndBattleWithWinner = endBattleWithWinner;
+  endBattleWithWinner = endTournamentBattle;
+}
+
+function endTournamentBattle(winnerName) {
+  const tournament = currentTournament;
+  
+  if (winnerName === player1.name) {
+    // Jugador ganó la ronda
+    tournament.currentRound++;
+    
+    if (tournament.currentRound > tournament.totalRounds) {
+      // Torneo completado
+      const totalReward = tournament.reward * 3; // Recompensa por completar todo el torneo
+      playerCash += totalReward;
+      localStorage.setItem('playerCash', playerCash.toString());
+      
+      alert(`🏆 ¡Has completado el Torneo ${tournament.difficulty.toUpperCase()}!\n\n💰 Recompensa total: ${totalReward} cash\n🎯 ¡Eres un verdadero maestro ninja!`);
+      
+      // Volver al modo aventura
+      exitTournament();
+    } else {
+      // Siguiente ronda
+      alert(`🏆 ¡Has ganado la Ronda ${tournament.currentRound - 1}!\n\n⚔️ Próximo oponente: ${tournament.opponents[tournament.currentRound - 1].name}\n💰 Recompensa acumulada: ${tournament.reward * tournament.currentRound}`);
+      
+      // Mostrar información de la siguiente ronda
+      showTournamentInfo();
+    }
+  } else {
+    // Jugador perdió
+    alert(`💀 Has perdido contra ${winnerName} en la Ronda ${tournament.currentRound}.\n\n❌ El torneo ha terminado. Vuelve a intentarlo cuando estés listo.`);
+    
+    // Volver al modo aventura
+    exitTournament();
+  }
+  
+  // Restaurar función original
+  endBattleWithWinner = originalEndBattleWithWinner;
+  
+  // Terminar batalla
+  endBattle();
+}
+
+function exitTournament() {
+  // Limpiar torneo actual
+  currentTournament = null;
+  
+  // Volver al modo aventura
+  document.getElementById("adventureMode").style.display = "flex";
+  gameState = "adventure";
+  
+  // Actualizar información
+  updateAdventureInfo();
+}
+
+function backToMenuFromAdventure() {
+  document.getElementById("adventureMode").style.display = "none";
+  document.getElementById("menu").style.display = "flex";
+  gameState = "menu";
+  
+  // Actualizar información en el menú principal
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
 }
 
 // Handle window resize
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+});
+
+// Inicializar cash del jugador al cargar la página
+window.addEventListener('load', () => {
+  if (localStorage.getItem('playerCash')) {
+    playerCash = parseInt(localStorage.getItem('playerCash'));
+  }
+  if (document.getElementById("menuCash")) {
+    document.getElementById("menuCash").textContent = playerCash;
+  }
 });
 </script>
 </body>
