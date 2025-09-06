@@ -4,12 +4,21 @@ Un juego de batalla de ninjas inspirado en la serie Ninjago, desarrollado con HT
 
 ## 🎮 Características
 
+### **🎯 Modo Original (Local)**
 - **4 Mundos Únicos**: Ice World, Lava World, Jungle World y Lego City
 - **6 Personajes Ninja**: Kai, Zane, Lloyd, Cole, Jay y Nya
 - **Modo Aventura**: Explora la ciudad de Lego y participa en torneos
 - **Sistema de Combate**: Ataques básicos y especiales
 - **Sistema de Progresión**: Cash, niveles y dificultad de IA
 - **Tienda**: Compra personajes y habilidades
+
+### **🌐 Modo Online (Multijugador)**
+- **Sistema de Salas**: Crea o únete a salas con ID único
+- **2 Jugadores**: Combate en tiempo real contra otros jugadores
+- **Chat en Vivo**: Comunicación instantánea entre jugadores
+- **Sincronización**: Movimiento y acciones en tiempo real
+- **4 Personajes**: Kai, Zane, Jay y Cole disponibles
+- **Interfaz Moderna**: Diseño optimizado para multijugador
 
 ## 🎯 Cómo Jugar
 
@@ -53,7 +62,7 @@ Un juego de batalla de ninjas inspirado en la serie Ninjago, desarrollado con HT
 
 1. Clona el repositorio:
 ```bash
-git clone https://github.com/tu-usuario/ninjagobattlegrounds.git
+git clone https://github.com/matiasarrietareyes/ninjagobattlegrounds.git
 cd ninjagobattlegrounds
 ```
 
@@ -62,12 +71,30 @@ cd ninjagobattlegrounds
    npm install
    ```
 
-3. Ejecuta el servidor local:
+3. Ejecuta el servidor:
    ```bash
    npm start
    ```
 
-4. Abre tu navegador en `http://localhost:8000`
+4. Abre tu navegador:
+- **Modo Online**: `http://localhost:3000`
+- **Modo Original**: `http://localhost:3000/original`
+
+## 🌐 Jugar Online
+
+### **Crear una Partida**
+1. Ve a `http://localhost:3000`
+2. Haz clic en **"Crear Sala"**
+3. Comparte el **ID de sala** con tu amigo
+4. Ambos seleccionan personajes
+5. ¡Combate en tiempo real!
+
+### **Unirse a una Partida**
+1. Ve a `http://localhost:3000`
+2. Ingresa el **ID de sala** que te compartieron
+3. Haz clic en **"Unirse a Sala"**
+4. Selecciona tu personaje
+5. ¡A jugar!
 
 ## 📁 Estructura del Proyecto
 

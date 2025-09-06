@@ -68,6 +68,7 @@
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
   }
   .characterCard:hover {
     border-color: #f00;
@@ -99,6 +100,21 @@
   .stat-value {
     color: #f00;
     font-weight: bold;
+  }
+  .locked-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ff6b6b;
   }
   .worldSelect {
     position: absolute;
@@ -653,7 +669,8 @@
   </div>
   <button onclick="startWorldSelect()">Start Battle</button>
   <button onclick="openShop()">Shop</button>
-  <button onclick="startAdventureMode()" style="background: #4CAF50;">🏙️ Modo Aventura</button>
+  <button onclick="startAdventureMode()" style="background: #4CAF50;">🏙️ Adventure Mode</button>
+  <button onclick="startOnlineMode()" style="background: #2196F3;">🌐 Online Mode</button>
 </div>
 
 <div id="shop" class="shop" style="display: none;">
@@ -884,6 +901,55 @@
   <button onclick="backToMenuFromAdventure()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Volver al Menú</button>
 </div>
 
+<!-- Modo Online -->
+<div id="onlineMode" class="onlineMode" style="display: none;">
+  <h1 style="color:white; font-size: 40px;">🌐 Modo Online</h1>
+  
+  <div style="color: white; margin: 20px 0; font-size: 18px;">
+    💰 Tu Cash: <span id="onlineCash">1000</span>
+  </div>
+  
+  <!-- Sección de Sala -->
+  <div class="onlineSection">
+    <h3>🏠 Crear/Unirse a Sala</h3>
+    <input type="text" id="roomIdInput" placeholder="ID de Sala (ej: ABC123)" style="width: 200px; padding: 10px; margin: 10px; border: 2px solid #FFD700; border-radius: 5px; background: rgba(0,0,0,0.5); color: white;">
+    <br>
+    <button onclick="createRoom()" style="background: #4CAF50; margin: 5px;">Crear Sala</button>
+    <button onclick="joinRoom()" style="background: #2196F3; margin: 5px;">Unirse a Sala</button>
+    <div id="roomStatus" style="margin: 10px; padding: 10px; background: rgba(255,193,7,0.2); border: 2px solid #FFC107; border-radius: 5px; display: none;">
+      Esperando jugadores...
+    </div>
+  </div>
+
+  <!-- Lista de Jugadores -->
+  <div class="onlineSection">
+    <h3>👥 Jugadores en Sala</h3>
+    <div id="onlinePlayerList" style="margin: 10px;">
+      <div style="padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px;">Ningún jugador conectado</div>
+    </div>
+  </div>
+
+  <!-- Selección de Personaje Online -->
+  <div class="onlineSection">
+    <h3>🥷 Seleccionar Personaje</h3>
+    <div id="onlineCharacterSelect" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 15px;">
+      <!-- Los personajes se cargarán dinámicamente -->
+    </div>
+    <button id="startOnlineGameBtn" onclick="startOnlineGame()" style="background: #FFD700; color: #000; margin: 10px;" disabled>Iniciar Juego Online</button>
+  </div>
+
+  <!-- Chat -->
+  <div class="onlineSection">
+    <h3>💬 Chat</h3>
+    <div id="chatMessages" style="height: 150px; overflow-y: auto; background: rgba(0,0,0,0.5); border: 2px solid #FFD700; border-radius: 5px; padding: 10px; margin: 10px 0;">
+      <div style="color: #FFD700;">Sistema: Bienvenido al modo online!</div>
+    </div>
+    <input type="text" id="chatInput" placeholder="Escribe un mensaje..." style="width: 100%; padding: 8px; border: 2px solid #FFD700; border-radius: 5px; background: rgba(0,0,0,0.5); color: white;">
+  </div>
+  
+  <button onclick="backToMenuFromOnline()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Volver al Menú</button>
+</div>
+
 <div id="worldSelect" class="worldSelect">
   <h1 style="color:white; font-size: 40px;">Choose Your Battle World</h1>
   <div class="worldGrid">
@@ -990,6 +1056,28 @@
         </div>
       </div>
     </div>
+    <div class="characterCard" onclick="selectCharacter('ninjaAzul')" id="ninjaAzulCard">
+      <img src="images/ChatGPT Image Sep 4, 2025, 03_29_16 PM-fotor-bg-remover-2025090415471.png" alt="Nya">
+      <h3>Nya (Water Ninja)</h3>
+      <p>Master of Water</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">28</div>
+          <div>Attack</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">18</div>
+          <div>Defense</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">190</div>
+          <div>Health</div>
+        </div>
+      </div>
+      <div class="locked-overlay" id="ninjaAzulLocked" style="display: none;">
+        <span>🔒 Locked</span>
+      </div>
+    </div>
   </div>
   <button onclick="backToWorldSelect()" style="margin-top: 20px; padding: 10px 20px; background: #666;">Back to World Select</button>
 </div>
@@ -1063,6 +1151,13 @@ let isAdventureMode = false; // Si estamos en modo aventura
 let playerPosition = { x: 100, y: 400 }; // Posición del jugador en modo aventura
 let cameraOffset = { x: 0, y: 0 }; // Offset de la cámara para seguir al jugador
 let nearbyTournaments = []; // Torneos cercanos al jugador
+
+// Variables para modo online
+let isOnlineMode = false; // Si estamos en modo online
+let socket = null; // Conexión WebSocket
+let currentRoom = null; // Sala actual
+let onlinePlayers = new Map(); // Jugadores online
+let selectedOnlineCharacter = null; // Personaje seleccionado para online
 
 // Sistema de animaciones (deshabilitado)
 let characterAnimations = null;
@@ -1235,6 +1330,19 @@ canvas.addEventListener('click', (e) => {
       console.log("TEST MOVE CLICKED! New position:", player1.x, player1.y);
     }
   }
+  
+  // Botón de movimiento forzado
+  if (clickX >= 50 && clickX <= 150 && clickY >= 90 && clickY <= 120) {
+    console.log("FORCE MOVE CLICKED!");
+    if (player1) {
+      // Simular movimiento con teclas
+      keys['d'] = true;
+      setTimeout(() => {
+        keys['d'] = false;
+        console.log("Force movement completed");
+      }, 100);
+    }
+  }
 });
 
 function startWorldSelect() {
@@ -1262,6 +1370,9 @@ function selectWorld(worldId) {
   document.getElementById("worldSelect").style.display = "none";
   document.getElementById("characterSelect").style.display = "flex";
   gameState = "characterSelect";
+  
+  // Actualizar visibilidad de personajes desbloqueados
+  updateCharacterSelectVisibility();
 }
 
 function backToWorldSelect() {
@@ -1478,31 +1589,35 @@ function handlePlayerInput() {
   let oldX = player1.x;
   let oldY = player1.y;
   
-  // Movement - simplificado
+  // Movement - exactamente como en las batallas
   if (keys['w'] || keys['arrowup']) {
     player1.y -= player1.speed;
     isMoving = true;
-    console.log("MOVING UP! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
+    console.log("🎮 LLOYD MOVING UP! From", oldX, oldY, "to", player1.x, player1.y);
   }
   if (keys['s'] || keys['arrowdown']) {
     player1.y += player1.speed;
     isMoving = true;
-    console.log("MOVING DOWN! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
+    console.log("🎮 LLOYD MOVING DOWN! From", oldX, oldY, "to", player1.x, player1.y);
   }
   if (keys['a'] || keys['arrowleft']) {
     player1.x -= player1.speed;
     player1.facing = -1;
     isMoving = true;
-    console.log("MOVING LEFT! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
+    console.log("🎮 LLOYD MOVING LEFT! From", oldX, oldY, "to", player1.x, player1.y);
   }
   if (keys['d'] || keys['arrowright']) {
     player1.x += player1.speed;
     player1.facing = 1;
     isMoving = true;
-    console.log("MOVING RIGHT! Old pos:", oldX, oldY, "New pos:", player1.x, player1.y);
+    console.log("🎮 LLOYD MOVING RIGHT! From", oldX, oldY, "to", player1.x, player1.y);
   }
   
-  // Movement logic
+  if (isMoving) {
+    console.log("✅ LLOYD IS MOVING! Position:", player1.x, player1.y, "Speed:", player1.speed);
+  }
+  
+  // Movement logic - simplificado para todos los modos
   if (isAdventureMode) {
     // En modo aventura, permitir movimiento libre por el mundo
     player1.x = Math.max(50, Math.min(canvas.width - 50, player1.x));
@@ -1515,10 +1630,18 @@ function handlePlayerInput() {
     // Verificar torneos cercanos
     checkNearbyTournaments();
     
-    // Interactuar con torneos con Enter
-    if (keys['enter'] && nearbyTournaments.length > 0) {
-      const tournament = nearbyTournaments[0];
-      enterTournamentFromAdventure(tournament);
+    // Verificar edificios cercanos
+    checkNearbyBuildings();
+    
+    // Interactuar con torneos o edificios con Enter
+    if (keys['enter']) {
+      if (nearbyTournaments.length > 0) {
+        const tournament = nearbyTournaments[0];
+        enterTournamentFromAdventure(tournament);
+      } else if (nearbyBuildings.length > 0) {
+        const building = nearbyBuildings[0];
+        enterBuilding(building);
+      }
     }
     
     // Volver al menú con Escape
@@ -1535,7 +1658,6 @@ function handlePlayerInput() {
       attack(player1, player2);
       player1.lastAttack = Date.now();
       player1.isAttacking = true;
-      // Attack logic (sin animación)
       setTimeout(() => { 
         player1.isAttacking = false; 
       }, 200);
@@ -1546,7 +1668,6 @@ function handlePlayerInput() {
       specialAttack(player1, player2);
       player1.lastSpecial = Date.now();
       player1.isSpecialAttacking = true;
-      // Special attack logic (sin animación)
       setTimeout(() => { 
         player1.isSpecialAttacking = false; 
       }, 500);
@@ -1917,8 +2038,9 @@ function endBattle() {
 }
 
 function gameLoop() {
-  if (gameState !== "battle") {
-    console.log("Game loop stopped: gameState =", gameState);
+  // Permitir que el gameLoop funcione en modo aventura y batalla
+  if (gameState !== "battle" && !isAdventureMode) {
+    console.log("Game loop stopped: gameState =", gameState, "isAdventureMode =", isAdventureMode);
     return;
   }
   
@@ -1927,7 +2049,9 @@ function gameLoop() {
     console.log("Game loop running, gameState:", gameState, "isAdventureMode:", isAdventureMode, "player1:", player1 ? `${player1.name} at ${player1.x},${player1.y}` : "null");
   }
   
+  // Usar el mismo sistema de movimiento para todos los modos
   handlePlayerInput();
+  
   updateAI();
   render();
   requestAnimationFrame(gameLoop);
@@ -1942,11 +2066,28 @@ function render() {
   
   // Draw world background
   const world = worlds[selectedWorld];
-  const background = new Image();
-  background.src = world.background;
-  
-  if (background.complete) {
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (world && world.background) {
+    const background = new Image();
+    background.src = world.background;
+    
+    // Dibujar fondo inmediatamente si está cargado, o usar un color de fondo
+    if (background.complete) {
+      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    } else {
+      // Fondo de respaldo mientras se carga la imagen
+      if (selectedWorld === 'legoCity') {
+        ctx.fillStyle = '#4A90E2'; // Azul cielo para la ciudad
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = '#333'; // Fondo oscuro por defecto
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      // Intentar cargar la imagen
+      background.onload = function() {
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+      };
+    }
     
     // Add world-specific ambient effects
     if (selectedWorld === 'ice') {
@@ -2125,9 +2266,27 @@ function render() {
       ctx.drawImage(player1.image, drawX - 40, player1.y - 50, 80, 100); // Tamaño más grande
       ctx.restore();
     } else {
-      // Fallback: dibujar rectángulo de color más grande
-      ctx.fillStyle = player1.color || '#00ff00'; // Verde para Lloyd
+      // Fallback mejorado: dibujar Lloyd como personaje visible
+      ctx.fillStyle = '#00ff00'; // Verde brillante para Lloyd
       ctx.fillRect(player1.x - 40, player1.y - 50, 80, 100); // Tamaño más grande
+      
+      // Dibujar borde para que se vea mejor
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(player1.x - 40, player1.y - 50, 80, 100);
+      
+      // Dibujar cara simple de Lloyd
+      ctx.fillStyle = '#FFE4B5'; // Color piel
+      ctx.fillRect(player1.x - 20, player1.y - 30, 40, 30);
+      
+      // Ojos
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(player1.x - 15, player1.y - 25, 5, 5);
+      ctx.fillRect(player1.x + 10, player1.y - 25, 5, 5);
+      
+      // Boca
+      ctx.fillRect(player1.x - 5, player1.y - 15, 10, 3);
+      
       // Log para debug
       if (Math.random() < 0.01) { // Solo ocasionalmente para no saturar
         console.log("Player1 image not loaded, using fallback rectangle. Image complete:", player1.image ? player1.image.complete : "no image");
@@ -2173,64 +2332,70 @@ function render() {
     ctx.fillText(player2.state.toUpperCase(), player2.x, player2.y - 40);
   }
   
-  // Draw tournaments in adventure mode
-  if (isAdventureMode && selectedWorld === 'legoCity' && worlds[selectedWorld].tournaments) {
-    const tournaments = worlds[selectedWorld].tournaments;
-    
-    tournaments.forEach(tournament => {
-      const x = tournament.location.x;
-      const y = tournament.location.y;
+      // Draw buildings and tournaments in adventure mode
+    if (isAdventureMode && selectedWorld === 'legoCity') {
+      // Draw buildings first
+      drawCityBuildings();
       
-      // Draw tournament marker
-      ctx.save();
-      
-      // Tournament glow effect
-      const glowIntensity = 0.3 + 0.2 * Math.sin(Date.now() / 1000);
-      ctx.fillStyle = `rgba(255, 215, 0, ${glowIntensity})`;
-      ctx.beginPath();
-      ctx.arc(x, y, 60, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // Tournament icon based on difficulty
-      let icon = '🏆';
-      let color = '#FFD700';
-      switch(tournament.difficulty) {
-        case 'easy':
-          icon = '🥉';
-          color = '#4CAF50';
-          break;
-        case 'medium':
-          icon = '🥈';
-          color = '#FF9800';
-          break;
-        case 'hard':
-          icon = '🥇';
-          color = '#F44336';
-          break;
-        case 'extreme':
-          icon = '🏆';
-          color = '#9C27B0';
-          break;
+      // Then draw tournaments
+      if (worlds[selectedWorld].tournaments) {
+        const tournaments = worlds[selectedWorld].tournaments;
+        
+        tournaments.forEach(tournament => {
+          const x = tournament.location.x;
+          const y = tournament.location.y;
+          
+          // Draw tournament marker
+          ctx.save();
+          
+          // Tournament glow effect
+          const glowIntensity = 0.3 + 0.2 * Math.sin(Date.now() / 1000);
+          ctx.fillStyle = `rgba(255, 215, 0, ${glowIntensity})`;
+          ctx.beginPath();
+          ctx.arc(x, y, 60, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Tournament icon based on difficulty
+          let icon = '🏆';
+          let color = '#FFD700';
+          switch(tournament.difficulty) {
+            case 'easy':
+              icon = '🥉';
+              color = '#4CAF50';
+              break;
+            case 'medium':
+              icon = '🥈';
+              color = '#FF9800';
+              break;
+            case 'hard':
+              icon = '🥇';
+              color = '#F44336';
+              break;
+            case 'extreme':
+              icon = '🏆';
+              color = '#9C27B0';
+              break;
+          }
+          
+          // Draw tournament icon
+          ctx.fillStyle = color;
+          ctx.font = '30px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText(icon, x, y + 10);
+          
+          // Draw tournament name
+          ctx.fillStyle = 'white';
+          ctx.font = 'bold 12px Arial';
+          ctx.fillText(tournament.name, x, y + 50);
+          
+          // Draw reward
+          ctx.fillStyle = '#00FF00';
+          ctx.font = '10px Arial';
+          ctx.fillText(`💰 ${tournament.reward}`, x, y + 65);
+          
+          ctx.restore();
+        });
       }
-      
-      // Draw tournament icon
-      ctx.fillStyle = color;
-      ctx.font = '30px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(icon, x, y + 10);
-      
-      // Draw tournament name
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 12px Arial';
-      ctx.fillText(tournament.name, x, y + 50);
-      
-      // Draw reward
-      ctx.fillStyle = '#00FF00';
-      ctx.font = '10px Arial';
-      ctx.fillText(`💰 ${tournament.reward}`, x, y + 65);
-      
-      ctx.restore();
-    });
     
     // Draw interaction prompt for nearby tournaments
     if (nearbyTournaments.length > 0) {
@@ -2265,6 +2430,12 @@ function render() {
     ctx.fillText('🥷 Jugando como Lloyd', canvas.width - 190, 110);
     ctx.fillText(`Pos: ${Math.round(player1.x)}, ${Math.round(player1.y)}`, canvas.width - 190, 125);
     
+    // Mostrar edificio cercano
+    if (nearbyBuildings.length > 0) {
+      const building = nearbyBuildings[0];
+      ctx.fillText(`🏢 Near: ${building.name}`, canvas.width - 190, 140);
+    }
+    
     // Indicador visual de movimiento
     ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
     ctx.fillRect(player1.x - 5, player1.y - 5, 10, 10);
@@ -2273,13 +2444,19 @@ function render() {
     ctx.textAlign = 'center';
     ctx.fillText('LLOYD', player1.x, player1.y - 60);
     
-    // Botón de prueba temporal
+    // Botón de prueba temporal para movimiento
     ctx.fillStyle = 'rgba(0, 255, 0, 0.8)';
     ctx.fillRect(50, 50, 100, 30);
     ctx.fillStyle = 'black';
     ctx.font = '12px Arial';
     ctx.textAlign = 'center';
     ctx.fillText('TEST MOVE', 100, 70);
+    
+    // Botón para forzar movimiento
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+    ctx.fillRect(50, 90, 100, 30);
+    ctx.fillStyle = 'white';
+    ctx.fillText('FORCE MOVE', 100, 110);
   }
   
   // Draw health numbers
@@ -2408,6 +2585,26 @@ function backToMenuFromShop() {
   
   // Actualizar cash en el menú principal
   document.getElementById("menuCash").textContent = playerCash;
+}
+
+function updateCharacterSelectVisibility() {
+  const unlockedCharacters = JSON.parse(localStorage.getItem('unlockedCharacters') || '[]');
+  const ninjaAzulCard = document.getElementById("ninjaAzulCard");
+  const ninjaAzulLocked = document.getElementById("ninjaAzulLocked");
+  
+  if (ninjaAzulCard && ninjaAzulLocked) {
+    if (unlockedCharacters.includes('ninjaAzul')) {
+      // Personaje desbloqueado - mostrar normal
+      ninjaAzulCard.style.opacity = "1";
+      ninjaAzulCard.style.pointerEvents = "auto";
+      ninjaAzulLocked.style.display = "none";
+    } else {
+      // Personaje bloqueado - mostrar con overlay
+      ninjaAzulCard.style.opacity = "0.6";
+      ninjaAzulCard.style.pointerEvents = "auto"; // Permitir clic para mostrar mensaje
+      ninjaAzulLocked.style.display = "flex";
+    }
+  }
 }
 
 function buySkillBox(boxType) {
@@ -2604,8 +2801,15 @@ function startAdventureMode() {
   document.getElementById("adventureMode").style.display = "none";
   
   // Asegurar que el canvas tenga foco para recibir eventos de teclado
+  // Asegurar que el canvas tenga el foco
   canvas.focus();
   canvas.tabIndex = 0;
+  
+  // Forzar el foco en el canvas
+  setTimeout(() => {
+    canvas.focus();
+    console.log("Canvas focused for movement");
+  }, 100);
   
   // Inicializar jugador para modo aventura
   player1 = {
@@ -2645,35 +2849,9 @@ function startAdventureMode() {
   // Iniciar loop del juego
   gameLoop();
   
-  // Sistema de movimiento alternativo - más simple
-  console.log("Starting alternative movement system");
-  setInterval(() => {
-    if (isAdventureMode && player1) {
-      // Movimiento simple y directo
-      if (keys['w'] || keys['arrowup']) {
-        player1.y -= 5;
-        console.log("ALT MOVEMENT UP:", player1.x, player1.y);
-      }
-      if (keys['s'] || keys['arrowdown']) {
-        player1.y += 5;
-        console.log("ALT MOVEMENT DOWN:", player1.x, player1.y);
-      }
-      if (keys['a'] || keys['arrowleft']) {
-        player1.x -= 5;
-        player1.facing = -1;
-        console.log("ALT MOVEMENT LEFT:", player1.x, player1.y);
-      }
-      if (keys['d'] || keys['arrowright']) {
-        player1.x += 5;
-        player1.facing = 1;
-        console.log("ALT MOVEMENT RIGHT:", player1.x, player1.y);
-      }
-      
-      // Mantener dentro de límites
-      player1.x = Math.max(50, Math.min(canvas.width - 50, player1.x));
-      player1.y = Math.max(50, Math.min(canvas.height - 50, player1.y));
-    }
-  }, 50); // Cada 50ms
+  console.log("Adventure mode started - Lloyd should be able to move now!");
+  
+  console.log("Adventure mode initialized - movement should work now!");
 }
 
 function updateAdventureInfo() {
@@ -2785,6 +2963,368 @@ function exitAdventureMode() {
   canvas.style.display = "none";
   document.getElementById("worldSelect").style.display = "flex";
   gameState = "worldSelect";
+}
+
+// Funciones del modo online
+function startOnlineMode() {
+  // Ocultar menú principal
+  document.getElementById("menu").style.display = "none";
+  
+  // Mostrar modo online
+  document.getElementById("onlineMode").style.display = "flex";
+  
+  // Actualizar cash en el modo online
+  if (document.getElementById("onlineCash")) {
+    document.getElementById("onlineCash").textContent = playerCash;
+  }
+  
+  // Inicializar conexión WebSocket (simulada para demo)
+  initializeOnlineMode();
+}
+
+function initializeOnlineMode() {
+  // Simular conexión online (en un juego real usarías Socket.IO)
+  console.log("Inicializando modo online...");
+  
+  // Cargar personajes disponibles para online
+  loadOnlineCharacters();
+  
+  // Configurar chat
+  setupOnlineChat();
+  
+  addChatMessage("Sistema", "Modo online inicializado. ¡Crea o únete a una sala!", "system");
+}
+
+function loadOnlineCharacters() {
+  const container = document.getElementById("onlineCharacterSelect");
+  container.innerHTML = "";
+  
+  const onlineCharacters = [
+    { id: 'kai', name: 'Kai', img: 'images/ninjarojosinmascara.png.png' },
+    { id: 'zane', name: 'Zane', img: 'images/ninjablanco.png-fotor-bg-remover-20250902204741.png' },
+    { id: 'jay', name: 'Jay', img: 'images/ninjaazul.png-fotor-bg-remover-20250902204441.png' },
+    { id: 'cole', name: 'Cole', img: 'images/ninjaazul.png-fotor-bg-remover-20250902204441.png' }
+  ];
+  
+  onlineCharacters.forEach(character => {
+    const card = document.createElement('div');
+    card.className = 'onlineCharacterCard';
+    card.innerHTML = `
+      <img src="${character.img}" alt="${character.name}">
+      <div>${character.name}</div>
+    `;
+    
+    card.addEventListener('click', () => {
+      selectOnlineCharacter(character.id);
+    });
+    
+    container.appendChild(card);
+  });
+}
+
+function selectOnlineCharacter(characterId) {
+  selectedOnlineCharacter = characterId;
+  
+  // Actualizar selección visual
+  document.querySelectorAll('.onlineCharacterCard').forEach(card => {
+    card.classList.remove('selected');
+  });
+  
+  event.target.closest('.onlineCharacterCard').classList.add('selected');
+  
+  addChatMessage("Sistema", `Seleccionaste ${characterId}`, "system");
+}
+
+function createRoom() {
+  const roomId = generateRoomId();
+  document.getElementById('roomIdInput').value = roomId;
+  joinRoom();
+}
+
+function joinRoom() {
+  const roomId = document.getElementById('roomIdInput').value.trim().toUpperCase();
+  if (!roomId) {
+    alert('Please enter a room ID');
+    return;
+  }
+  
+  currentRoom = roomId;
+  document.getElementById('roomStatus').style.display = 'block';
+  document.getElementById('roomStatus').textContent = `Room: ${roomId} - Waiting for players...`;
+  
+  addChatMessage("Sistema", `Joined room ${roomId}`, "system");
+  
+  // Simular que otro jugador se une
+  setTimeout(() => {
+    if (currentRoom === roomId) {
+      document.getElementById('roomStatus').textContent = `Room: ${roomId} - Ready to start!`;
+      document.getElementById('startOnlineGameBtn').disabled = false;
+      addChatMessage("Sistema", "Another player joined! Ready to start!", "system");
+    }
+  }, 2000);
+}
+
+function generateRoomId() {
+  return Math.random().toString(36).substr(2, 6).toUpperCase();
+}
+
+function startOnlineGame() {
+  if (!selectedOnlineCharacter) {
+    alert('Please select a character first');
+    return;
+  }
+  
+  addChatMessage("Sistema", "Starting online battle!", "system");
+  
+  // Simular inicio de juego online
+  setTimeout(() => {
+    startOnlineBattle();
+  }, 1000);
+}
+
+function startOnlineBattle() {
+  // Ocultar modo online
+  document.getElementById("onlineMode").style.display = "none";
+  
+  // Configurar para batalla online
+  isOnlineMode = true;
+  selectedWorld = 'ice'; // Mundo por defecto para online
+  selectedCharacter = selectedOnlineCharacter;
+  
+  // Mostrar canvas
+  canvas.style.display = "block";
+  
+  // Inicializar jugadores
+  player1 = {
+    id: 'player1',
+    name: 'You',
+    x: 200,
+    y: 300,
+    width: 80,
+    height: 100,
+    speed: 8,
+    health: 100,
+    maxHealth: 100,
+    facing: 1,
+    image: new Image()
+  };
+  
+  // Simular oponente online
+  player2 = {
+    id: 'player2',
+    name: 'Online Player',
+    x: 600,
+    y: 300,
+    width: 80,
+    height: 100,
+    speed: 8,
+    health: 100,
+    maxHealth: 100,
+    facing: -1,
+    image: new Image()
+  };
+  
+  // Cargar imágenes
+  player1.image.src = characters[selectedCharacter].img;
+  player2.image.src = characters['kai'].img; // Oponente fijo
+  
+  // Cambiar estado del juego
+  gameState = "battle";
+  
+  // Iniciar loop del juego
+  gameLoop();
+}
+
+function setupOnlineChat() {
+  const chatInput = document.getElementById('chatInput');
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      sendOnlineMessage();
+    }
+  });
+}
+
+function sendOnlineMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (message) {
+    addChatMessage("You", message, "player");
+    input.value = '';
+    
+    // Simular respuesta del otro jugador
+    setTimeout(() => {
+      if (currentRoom) {
+        addChatMessage("Online Player", "Nice move!", "player");
+      }
+    }, 1000);
+  }
+}
+
+function addChatMessage(player, message, type) {
+  const container = document.getElementById('chatMessages');
+  const messageEl = document.createElement('div');
+  messageEl.className = `chat-message ${type}`;
+  messageEl.textContent = `${player}: ${message}`;
+  container.appendChild(messageEl);
+  container.scrollTop = container.scrollHeight;
+}
+
+function backToMenuFromOnline() {
+  isOnlineMode = false;
+  currentRoom = null;
+  selectedOnlineCharacter = null;
+  document.getElementById("onlineMode").style.display = "none";
+  document.getElementById("menu").style.display = "flex";
+}
+
+// Función para dibujar edificios de la ciudad
+function drawCityBuildings() {
+  const buildings = [
+    { x: 150, y: 200, width: 120, height: 150, name: "🏢 City Hall", type: "government" },
+    { x: 400, y: 180, width: 100, height: 120, name: "🏪 Shop", type: "shop" },
+    { x: 650, y: 220, width: 110, height: 140, name: "🏥 Hospital", type: "hospital" },
+    { x: 200, y: 450, width: 90, height: 110, name: "🏫 School", type: "school" },
+    { x: 500, y: 480, width: 130, height: 160, name: "🏭 Factory", type: "factory" },
+    { x: 800, y: 400, width: 100, height: 130, name: "🏨 Hotel", type: "hotel" },
+    { x: 100, y: 350, width: 80, height: 100, name: "🏠 House", type: "house" },
+    { x: 700, y: 300, width: 90, height: 120, name: "🏪 Market", type: "market" }
+  ];
+  
+  buildings.forEach(building => {
+    // Dibujar edificio
+    ctx.fillStyle = getBuildingColor(building.type);
+    ctx.fillRect(building.x, building.y, building.width, building.height);
+    
+    // Dibujar borde
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(building.x, building.y, building.width, building.height);
+    
+    // Dibujar ventanas
+    drawBuildingWindows(building);
+    
+    // Dibujar nombre del edificio
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(building.name, building.x + building.width/2, building.y - 10);
+    
+    // Verificar si el jugador está cerca del edificio
+    if (player1 && isPlayerNearBuilding(player1, building)) {
+      // Dibujar indicador de interacción
+      ctx.fillStyle = 'rgba(0, 255, 0, 0.7)';
+      ctx.fillRect(building.x - 5, building.y - 5, building.width + 10, building.height + 10);
+      
+      // Mostrar prompt de interacción
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('Press ENTER to enter', building.x + building.width/2, building.y - 25);
+    }
+  });
+}
+
+function getBuildingColor(type) {
+  const colors = {
+    'government': '#4A90E2',
+    'shop': '#F5A623',
+    'hospital': '#D0021B',
+    'school': '#7ED321',
+    'factory': '#9013FE',
+    'hotel': '#50E3C2',
+    'house': '#B8E986',
+    'market': '#F8E71C'
+  };
+  return colors[type] || '#666';
+}
+
+function drawBuildingWindows(building) {
+  ctx.fillStyle = '#FFD700';
+  const windowSize = 15;
+  const spacing = 25;
+  
+  for (let x = building.x + spacing; x < building.x + building.width - spacing; x += spacing) {
+    for (let y = building.y + spacing; y < building.y + building.height - spacing; y += spacing) {
+      ctx.fillRect(x, y, windowSize, windowSize);
+    }
+  }
+}
+
+function isPlayerNearBuilding(player, building) {
+  const distance = Math.sqrt(
+    Math.pow(player.x - (building.x + building.width/2), 2) + 
+    Math.pow(player.y - (building.y + building.height/2), 2)
+  );
+  return distance < 100; // Radio de interacción
+}
+
+// Variables para edificios cercanos
+let nearbyBuildings = [];
+
+function checkNearbyBuildings() {
+  if (!isAdventureMode || !player1) return;
+  
+  nearbyBuildings = [];
+  const buildings = [
+    { x: 150, y: 200, width: 120, height: 150, name: "🏢 City Hall", type: "government" },
+    { x: 400, y: 180, width: 100, height: 120, name: "🏪 Shop", type: "shop" },
+    { x: 650, y: 220, width: 110, height: 140, name: "🏥 Hospital", type: "hospital" },
+    { x: 200, y: 450, width: 90, height: 110, name: "🏫 School", type: "school" },
+    { x: 500, y: 480, width: 130, height: 160, name: "🏭 Factory", type: "factory" },
+    { x: 800, y: 400, width: 100, height: 130, name: "🏨 Hotel", type: "hotel" },
+    { x: 100, y: 350, width: 80, height: 100, name: "🏠 House", type: "house" },
+    { x: 700, y: 300, width: 90, height: 120, name: "🏪 Market", type: "market" }
+  ];
+  
+  buildings.forEach(building => {
+    if (isPlayerNearBuilding(player1, building)) {
+      nearbyBuildings.push(building);
+    }
+  });
+}
+
+function enterBuilding(building) {
+  if (!building) return;
+  
+  // Diferentes acciones según el tipo de edificio
+  switch(building.type) {
+    case 'shop':
+      alert(`🏪 Welcome to the Shop!\n\nYou can buy items here with your cash.\nCurrent cash: $${playerCash}`);
+      break;
+    case 'hospital':
+      alert(`🏥 Welcome to the Hospital!\n\nYour health has been restored to full!\nHealth: 100/100`);
+      if (player1) player1.health = player1.maxHealth;
+      break;
+    case 'school':
+      alert(`🏫 Welcome to the School!\n\nYou learned new techniques!\nYour level increased by 1!`);
+      playerLevel += 1;
+      break;
+    case 'government':
+      alert(`🏢 Welcome to City Hall!\n\nYou received a government bonus!\nCash: +500`);
+      playerCash += 500;
+      break;
+    case 'factory':
+      alert(`🏭 Welcome to the Factory!\n\nYou worked a shift and earned money!\nCash: +200`);
+      playerCash += 200;
+      break;
+    case 'hotel':
+      alert(`🏨 Welcome to the Hotel!\n\nYou rested and recovered energy!\nAll cooldowns reset!`);
+      if (player1) {
+        player1.lastAttack = 0;
+        player1.lastSpecial = 0;
+      }
+      break;
+    case 'house':
+      alert(`🏠 Welcome to the House!\n\nYou found a secret stash!\nCash: +100`);
+      playerCash += 100;
+      break;
+    case 'market':
+      alert(`🏪 Welcome to the Market!\n\nYou bought some supplies!\nCash: -50, Health: +20`);
+      playerCash -= 50;
+      if (player1) player1.health = Math.min(player1.maxHealth, player1.health + 20);
+      break;
+    default:
+      alert(`Welcome to ${building.name}!`);
+  }
 }
 
 function enterTournament(district, difficulty) {

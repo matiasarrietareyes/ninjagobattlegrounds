@@ -132,6 +132,34 @@ io.on('connection', (socket) => {
     });
   });
 
+  // Mensaje de chat
+  socket.on('chatMessage', (data) => {
+    const { roomId, message } = data;
+    const player = gameState.players.get(socket.id);
+    const playerName = player ? player.character?.name || 'Jugador' : 'Jugador';
+    
+    socket.to(roomId).emit('chatMessage', {
+      player: playerName,
+      message: message
+    });
+  });
+
+  // Actualizar posición del jugador
+  socket.on('updatePlayerPosition', (data) => {
+    const { x, y, roomId } = data;
+    const player = gameState.players.get(socket.id);
+    
+    if (player) {
+      player.x = x;
+      player.y = y;
+      socket.to(roomId).emit('playerPositionUpdated', {
+        playerId: socket.id,
+        x: x,
+        y: y
+      });
+    }
+  });
+
   // Desconexión
   socket.on('disconnect', () => {
     console.log(`Usuario desconectado: ${socket.id}`);
@@ -167,9 +195,14 @@ io.on('connection', (socket) => {
   });
 });
 
-// Ruta principal
+// Ruta principal - modo online
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'ninjago-online.html'));
+});
+
+// Ruta para el juego original
+app.get('/original', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Ruta para obtener estado del juego

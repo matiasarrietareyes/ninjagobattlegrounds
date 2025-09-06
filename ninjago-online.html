@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninjago Battlegrounds - Online</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        #gameContainer {
+            display: flex;
+            height: 100vh;
+        }
+
+        #gameCanvas {
+            flex: 1;
+            background: #000;
+            border: 2px solid #FFD700;
+        }
+
+        #sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-left: 2px solid #FFD700;
+            overflow-y: auto;
+        }
+
+        .room-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid #FFD700;
+        }
+
+        .room-section h3 {
+            margin: 0 0 15px 0;
+            color: #FFD700;
+            text-align: center;
+        }
+
+        .room-input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 16px;
+        }
+
+        .room-input::placeholder {
+            color: #ccc;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 8px;
+            background: #FFD700;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #FFA500;
+            transform: scale(1.05);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.create {
+            background: #4CAF50;
+        }
+
+        .btn.create:hover {
+            background: #45a049;
+        }
+
+        .btn.join {
+            background: #2196F3;
+        }
+
+        .btn.join:hover {
+            background: #1976D2;
+        }
+
+        .player-list {
+            margin: 15px 0;
+        }
+
+        .player-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .player-item.ready {
+            border-left-color: #4CAF50;
+        }
+
+        .character-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .character-card {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #666;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover {
+            border-color: #FFD700;
+            transform: scale(1.05);
+        }
+
+        .character-card.selected {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .character-card.unavailable {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #666;
+        }
+
+        .character-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .status.waiting {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid #FFC107;
+        }
+
+        .status.ready {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+        }
+
+        .status.battle {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid #F44336;
+        }
+
+        .chat-container {
+            margin-top: 20px;
+        }
+
+        .chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chat-message {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .controls {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .controls h4 {
+            margin: 0 0 10px 0;
+            color: #FFD700;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .key {
+            background: #333;
+            border: 1px solid #666;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div id="sidebar">
+            <div class="room-section">
+                <h3>🏠 Crear/Unirse a Sala</h3>
+                <input type="text" id="roomIdInput" class="room-input" placeholder="ID de Sala (ej: ABC123)">
+                <button id="createRoomBtn" class="btn create">Crear Sala</button>
+                <button id="joinRoomBtn" class="btn join">Unirse a Sala</button>
+                <div id="roomStatus" class="status waiting" style="display: none;">
+                    Esperando jugadores...
+                </div>
+            </div>
+
+            <div class="room-section">
+                <h3>👥 Jugadores en Sala</h3>
+                <div id="playerList" class="player-list">
+                    <div class="player-item">Ningún jugador conectado</div>
+                </div>
+            </div>
+
+            <div class="room-section">
+                <h3>🥷 Seleccionar Personaje</h3>
+                <div id="characterSelect" class="character-select">
+                    <!-- Los personajes se cargarán dinámicamente -->
+                </div>
+                <button id="startGameBtn" class="btn" disabled>Iniciar Juego</button>
+            </div>
+
+            <div class="room-section chat-container">
+                <h3>💬 Chat</h3>
+                <div id="chatMessages" class="chat-messages"></div>
+                <input type="text" id="chatInput" class="chat-input" placeholder="Escribe un mensaje...">
+            </div>
+
+            <div class="controls">
+                <h4>🎮 Controles</h4>
+                <div class="control-row">
+                    <span>Mover:</span>
+                    <span class="key">WASD</span>
+                </div>
+                <div class="control-row">
+                    <span>Ataque:</span>
+                    <span class="key">CTRL</span>
+                </div>
+                <div class="control-row">
+                    <span>Especial:</span>
+                    <span class="key">ENTER</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Variables globales
+        let socket;
+        let currentRoom = null;
+        let selectedCharacter = null;
+        let gameState = 'menu';
+        let players = new Map();
+        let canvas, ctx;
+        let keys = {};
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Conectar a Socket.IO
+            socket = io();
+            
+            // Event listeners
+            setupEventListeners();
+            setupGameLoop();
+        });
+
+        function setupEventListeners() {
+            // Botones de sala
+            document.getElementById('createRoomBtn').addEventListener('click', createRoom);
+            document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
+            document.getElementById('startGameBtn').addEventListener('click', startGame);
+            
+            // Chat
+            document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Controles de teclado
+            document.addEventListener('keydown', (e) => {
+                keys[e.key.toLowerCase()] = true;
+                if (gameState === 'battle') {
+                    handlePlayerInput();
+                }
+            });
+
+            document.addEventListener('keyup', (e) => {
+                keys[e.key.toLowerCase()] = false;
+            });
+
+            // Eventos de Socket.IO
+            socket.on('connect', () => {
+                console.log('Conectado al servidor');
+                addChatMessage('Sistema', 'Conectado al servidor', 'system');
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Desconectado del servidor');
+                addChatMessage('Sistema', 'Desconectado del servidor', 'system');
+            });
+
+            socket.on('gameState', (data) => {
+                console.log('Estado del juego recibido:', data);
+                updateCharacterSelect(data.characters);
+            });
+
+            socket.on('roomUpdate', (room) => {
+                console.log('Actualización de sala:', room);
+                updateRoomStatus(room);
+            });
+
+            socket.on('characterSelected', (data) => {
+                console.log('Personaje seleccionado:', data);
+                updateCharacterAvailability(data);
+            });
+
+            socket.on('gameReady', (room) => {
+                console.log('Juego listo:', room);
+                document.getElementById('roomStatus').textContent = '¡Juego listo para comenzar!';
+                document.getElementById('roomStatus').className = 'status ready';
+                document.getElementById('startGameBtn').disabled = false;
+            });
+
+            socket.on('battleStarted', (room) => {
+                console.log('Batalla iniciada:', room);
+                startBattle();
+            });
+
+            socket.on('playerMoved', (data) => {
+                updatePlayerPosition(data);
+            });
+
+            socket.on('playerAttacked', (data) => {
+                handlePlayerAttack(data);
+            });
+
+            socket.on('chatMessage', (data) => {
+                addChatMessage(data.player, data.message, 'player');
+            });
+        }
+
+        function createRoom() {
+            const roomId = generateRoomId();
+            document.getElementById('roomIdInput').value = roomId;
+            joinRoom();
+        }
+
+        function joinRoom() {
+            const roomId = document.getElementById('roomIdInput').value.trim().toUpperCase();
+            if (!roomId) {
+                alert('Por favor ingresa un ID de sala');
+                return;
+            }
+
+            currentRoom = roomId;
+            socket.emit('joinRoom', roomId);
+            addChatMessage('Sistema', `Uniéndose a la sala ${roomId}`, 'system');
+        }
+
+        function generateRoomId() {
+            return Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        function updateRoomStatus(room) {
+            const statusEl = document.getElementById('roomStatus');
+            const playerListEl = document.getElementById('playerList');
+            
+            statusEl.style.display = 'block';
+            statusEl.textContent = `Sala: ${room.id} (${room.players.length}/${room.maxPlayers})`;
+            
+            if (room.status === 'waiting') {
+                statusEl.className = 'status waiting';
+                statusEl.textContent += ' - Esperando jugadores...';
+            } else if (room.status === 'ready') {
+                statusEl.className = 'status ready';
+                statusEl.textContent += ' - ¡Listo para comenzar!';
+            } else if (room.status === 'battle') {
+                statusEl.className = 'status battle';
+                statusEl.textContent += ' - ¡En batalla!';
+            }
+
+            // Actualizar lista de jugadores
+            playerListEl.innerHTML = '';
+            room.players.forEach(playerId => {
+                const player = players.get(playerId);
+                const playerEl = document.createElement('div');
+                playerEl.className = 'player-item';
+                if (player && player.ready) {
+                    playerEl.className += ' ready';
+                }
+                playerEl.textContent = player ? player.character?.name || 'Jugador' : 'Jugador';
+                playerListEl.appendChild(playerEl);
+            });
+        }
+
+        function updateCharacterSelect(characters) {
+            const container = document.getElementById('characterSelect');
+            container.innerHTML = '';
+
+            characters.forEach(character => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                if (!character.available) {
+                    card.className += ' unavailable';
+                }
+                if (selectedCharacter === character.id) {
+                    card.className += ' selected';
+                }
+
+                card.innerHTML = `
+                    <img src="${character.img}" alt="${character.name}">
+                    <div>${character.name}</div>
+                `;
+
+                card.addEventListener('click', () => {
+                    if (character.available && currentRoom) {
+                        selectCharacter(character.id);
+                    }
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectCharacter(characterId) {
+            if (!currentRoom) return;
+
+            selectedCharacter = characterId;
+            socket.emit('selectCharacter', {
+                characterId: characterId,
+                roomId: currentRoom
+            });
+
+            addChatMessage('Sistema', `Seleccionaste ${characterId}`, 'system');
+        }
+
+        function updateCharacterAvailability(data) {
+            const cards = document.querySelectorAll('.character-card');
+            cards.forEach(card => {
+                const characterName = card.querySelector('div').textContent.toLowerCase();
+                if (characterName.includes(data.characterId)) {
+                    if (data.available) {
+                        card.classList.remove('unavailable');
+                    } else {
+                        card.classList.add('unavailable');
+                    }
+                }
+            });
+        }
+
+        function startGame() {
+            if (!currentRoom) return;
+            socket.emit('startBattle', currentRoom);
+        }
+
+        function startBattle() {
+            gameState = 'battle';
+            addChatMessage('Sistema', '¡La batalla ha comenzado!', 'system');
+        }
+
+        function handlePlayerInput() {
+            // Implementar lógica de movimiento
+            const player = players.get(socket.id);
+            if (!player) return;
+
+            let moved = false;
+            let newX = player.x || 400;
+            let newY = player.y || 300;
+
+            if (keys['w'] || keys['arrowup']) {
+                newY -= 5;
+                moved = true;
+            }
+            if (keys['s'] || keys['arrowdown']) {
+                newY += 5;
+                moved = true;
+            }
+            if (keys['a'] || keys['arrowleft']) {
+                newX -= 5;
+                moved = true;
+            }
+            if (keys['d'] || keys['arrowright']) {
+                newX += 5;
+                moved = true;
+            }
+
+            if (moved) {
+                player.x = newX;
+                player.y = newY;
+                socket.emit('playerMove', {
+                    x: newX,
+                    y: newY,
+                    roomId: currentRoom
+                });
+            }
+        }
+
+        function updatePlayerPosition(data) {
+            const player = players.get(data.playerId);
+            if (player) {
+                player.x = data.x;
+                player.y = data.y;
+            }
+        }
+
+        function handlePlayerAttack(data) {
+            // Implementar lógica de ataque
+            console.log('Ataque recibido:', data);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message && currentRoom) {
+                socket.emit('chatMessage', {
+                    roomId: currentRoom,
+                    message: message
+                });
+                input.value = '';
+            }
+        }
+
+        function addChatMessage(player, message, type) {
+            const container = document.getElementById('chatMessages');
+            const messageEl = document.createElement('div');
+            messageEl.className = 'chat-message';
+            
+            if (type === 'system') {
+                messageEl.style.color = '#FFD700';
+            } else if (type === 'player') {
+                messageEl.style.color = '#4CAF50';
+            }
+
+            messageEl.textContent = `${player}: ${message}`;
+            container.appendChild(messageEl);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function setupGameLoop() {
+            function gameLoop() {
+                if (gameState === 'battle') {
+                    render();
+                }
+                requestAnimationFrame(gameLoop);
+            }
+            gameLoop();
+        }
+
+        function render() {
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar fondo
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar jugadores
+            players.forEach((player, playerId) => {
+                if (player.x && player.y) {
+                    ctx.fillStyle = playerId === socket.id ? '#4CAF50' : '#F44336';
+                    ctx.fillRect(player.x - 25, player.y - 25, 50, 50);
+                    
+                    ctx.fillStyle = 'white';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(player.character?.name || 'Jugador', player.x, player.y - 35);
+                }
+            });
+
+            // Dibujar información del juego
+            ctx.fillStyle = 'white';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Sala: ${currentRoom || 'Ninguna'}`, 10, 30);
+            ctx.fillText(`Jugadores: ${players.size}`, 10, 50);
+        }
+    </script>
+</body>
+</html>
