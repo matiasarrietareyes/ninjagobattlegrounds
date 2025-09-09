@@ -4,14 +4,22 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Archivos de sistema
+# Archivos de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# Archivos temporales del sistema
 .DS_Store
 Thumbs.db
-
-# Archivos temporales
 *.tmp
 *.temp
-*.log
 
 # Archivos de IDE
 .vscode/
@@ -19,13 +27,13 @@ Thumbs.db
 *.swp
 *.swo
 
-# Archivos de respaldo
-*.bak
-*.backup
+# Archivos de build
+dist/
+build/
 
-# Variables de entorno
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Archivos de cache
+.cache/
+.parcel-cache/
+
+# Archivos de configuración local
+config.local.js
